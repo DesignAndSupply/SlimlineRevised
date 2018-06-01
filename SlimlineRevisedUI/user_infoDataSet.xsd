@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="user_infoDataSet" targetNamespace="http://tempuri.org/user_infoDataSet.xsd" xmlns:mstns="http://tempuri.org/user_infoDataSet.xsd" xmlns="http://tempuri.org/user_infoDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="user_infoConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="user_infoConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.SlimlineRevisedUI.Properties.Settings.GlobalReference.Default.user_infoConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="c_view_slimline_staffTableAdapter" GeneratorDataComponentClassName="c_view_slimline_staffTableAdapter" Name="c_view_slimline_staff" UserDataComponentName="c_view_slimline_staffTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="user_infoConnectionString (Settings)" DbObjectName="user_info.dbo.c_view_slimline_staff" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT id, Fullname, [current], slimline_staff, department FROM dbo.c_view_slimline_staff</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="id" DataSetColumn="id" />
+              <Mapping SourceColumn="Fullname" DataSetColumn="Fullname" />
+              <Mapping SourceColumn="current" DataSetColumn="current" />
+              <Mapping SourceColumn="slimline_staff" DataSetColumn="slimline_staff" />
+              <Mapping SourceColumn="department" DataSetColumn="department" />
+            </Mappings>
+            <Sources>
+              <DbSource ConnectionRef="user_infoConnectionString (Settings)" DbObjectName="user_info.dbo.c_view_slimline_staff" DbObjectType="View" FillMethodModifier="Public" FillMethodName="FillBy" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="FillBy" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="FillBy">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT id, Fullname, [current], slimline_staff, department FROM dbo.c_view_slimline_staff order by fullname</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </Sources>
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="user_infoDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="user_infoDataSet" msprop:Generator_UserDSName="user_infoDataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="c_view_slimline_staff" msprop:Generator_TableClassName="c_view_slimline_staffDataTable" msprop:Generator_TableVarName="tablec_view_slimline_staff" msprop:Generator_RowChangedName="c_view_slimline_staffRowChanged" msprop:Generator_TablePropName="c_view_slimline_staff" msprop:Generator_RowDeletingName="c_view_slimline_staffRowDeleting" msprop:Generator_RowChangingName="c_view_slimline_staffRowChanging" msprop:Generator_RowEvHandlerName="c_view_slimline_staffRowChangeEventHandler" msprop:Generator_RowDeletedName="c_view_slimline_staffRowDeleted" msprop:Generator_RowClassName="c_view_slimline_staffRow" msprop:Generator_UserTableName="c_view_slimline_staff" msprop:Generator_RowEvArgName="c_view_slimline_staffRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="id" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnid" msprop:Generator_ColumnPropNameInRow="id" msprop:Generator_ColumnPropNameInTable="idColumn" msprop:Generator_UserColumnName="id" type="xs:int" />
+              <xs:element name="Fullname" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnFullname" msprop:Generator_ColumnPropNameInRow="Fullname" msprop:Generator_ColumnPropNameInTable="FullnameColumn" msprop:Generator_UserColumnName="Fullname" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="41" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="current" msprop:Generator_ColumnVarNameInTable="columncurrent" msprop:Generator_ColumnPropNameInRow="current" msprop:Generator_ColumnPropNameInTable="currentColumn" msprop:Generator_UserColumnName="current" type="xs:boolean" minOccurs="0" />
+              <xs:element name="slimline_staff" msprop:Generator_ColumnVarNameInTable="columnslimline_staff" msprop:Generator_ColumnPropNameInRow="slimline_staff" msprop:Generator_ColumnPropNameInTable="slimline_staffColumn" msprop:Generator_UserColumnName="slimline_staff" type="xs:short" minOccurs="0" />
+              <xs:element name="department" msprop:Generator_ColumnVarNameInTable="columndepartment" msprop:Generator_ColumnPropNameInRow="department" msprop:Generator_ColumnPropNameInTable="departmentColumn" msprop:Generator_UserColumnName="department" type="xs:unsignedByte" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
