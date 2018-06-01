@@ -34,8 +34,11 @@
             this.btnLoadDoor = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnLooseItems = new System.Windows.Forms.Button();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.viewAllocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSections)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvSections
@@ -96,6 +99,23 @@
             this.btnLooseItems.UseVisualStyleBackColor = true;
             this.btnLooseItems.Click += new System.EventHandler(this.btnLooseItems_Click);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewAllocationToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(816, 24);
+            this.menuStrip1.TabIndex = 11;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // viewAllocationToolStripMenuItem
+            // 
+            this.viewAllocationToolStripMenuItem.Name = "viewAllocationToolStripMenuItem";
+            this.viewAllocationToolStripMenuItem.Size = new System.Drawing.Size(101, 20);
+            this.viewAllocationToolStripMenuItem.Text = "View Allocation";
+            this.viewAllocationToolStripMenuItem.Click += new System.EventHandler(this.viewAllocationToolStripMenuItem_Click);
+            // 
             // frmMainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -107,13 +127,17 @@
             this.Controls.Add(this.btnLoadDoor);
             this.Controls.Add(this.txtDoorIDSearch);
             this.Controls.Add(this.dgvSections);
+            this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmMainMenu";
             this.Text = "Slimline Main Menu";
             ((System.ComponentModel.ISupportInitialize)(this.dgvSections)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -126,5 +150,7 @@
         private System.Windows.Forms.Button btnLoadDoor;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnLooseItems;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem viewAllocationToolStripMenuItem;
     }
 }

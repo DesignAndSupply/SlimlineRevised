@@ -95,6 +95,12 @@
     <Compile Include="Forms\frmUpdateSection.Designer.cs">
       <DependentUpon>frmUpdateSection.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\frmWorkAllocation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmWorkAllocation.Designer.cs">
+      <DependentUpon>frmWorkAllocation.cs</DependentUpon>
+    </Compile>
     <Compile Include="order_databaseDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -152,6 +158,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmUpdateSection.resx">
       <DependentUpon>frmUpdateSection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmWorkAllocation.resx">
+      <DependentUpon>frmWorkAllocation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

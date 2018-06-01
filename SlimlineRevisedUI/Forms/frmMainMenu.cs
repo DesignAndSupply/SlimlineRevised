@@ -136,5 +136,11 @@ namespace SlimlineRevisedUI.Forms
                 
 
         }
+
+        private void viewAllocationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmWorkAllocation frmWA = new frmWorkAllocation();
+            frmWA.ShowDialog();
+        }
     }
 }
