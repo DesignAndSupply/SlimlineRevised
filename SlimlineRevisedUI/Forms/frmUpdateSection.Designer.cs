@@ -42,6 +42,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.c_view_slimline_staffTableAdapter = new SlimlineRevisedUI.user_infoDataSetTableAdapters.c_view_slimline_staffTableAdapter();
             this.btnComplete = new System.Windows.Forms.Button();
+            this.txtNote = new System.Windows.Forms.TextBox();
+            this.lblNote = new System.Windows.Forms.Label();
+            this.btnSaveNote = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProgress)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cviewslimlinestaffBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.user_infoDataSet)).BeginInit();
@@ -70,7 +73,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(17, 89);
+            this.label1.Location = new System.Drawing.Point(14, 89);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(97, 13);
             this.label1.TabIndex = 2;
@@ -86,7 +89,7 @@
             this.dgvProgress.Location = new System.Drawing.Point(17, 105);
             this.dgvProgress.Name = "dgvProgress";
             this.dgvProgress.RowHeadersVisible = false;
-            this.dgvProgress.Size = new System.Drawing.Size(718, 382);
+            this.dgvProgress.Size = new System.Drawing.Size(715, 311);
             this.dgvProgress.TabIndex = 3;
             // 
             // cmbStaffID
@@ -151,11 +154,42 @@
             this.btnComplete.UseVisualStyleBackColor = true;
             this.btnComplete.Click += new System.EventHandler(this.btnComplete_Click);
             // 
+            // txtNote
+            // 
+            this.txtNote.ForeColor = System.Drawing.Color.Red;
+            this.txtNote.Location = new System.Drawing.Point(17, 450);
+            this.txtNote.Multiline = true;
+            this.txtNote.Name = "txtNote";
+            this.txtNote.Size = new System.Drawing.Size(713, 47);
+            this.txtNote.TabIndex = 9;
+            // 
+            // lblNote
+            // 
+            this.lblNote.AutoSize = true;
+            this.lblNote.Location = new System.Drawing.Point(17, 431);
+            this.lblNote.Name = "lblNote";
+            this.lblNote.Size = new System.Drawing.Size(35, 13);
+            this.lblNote.TabIndex = 10;
+            this.lblNote.Text = "label3";
+            // 
+            // btnSaveNote
+            // 
+            this.btnSaveNote.Location = new System.Drawing.Point(655, 503);
+            this.btnSaveNote.Name = "btnSaveNote";
+            this.btnSaveNote.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveNote.TabIndex = 11;
+            this.btnSaveNote.Text = "Save Note";
+            this.btnSaveNote.UseVisualStyleBackColor = true;
+            this.btnSaveNote.Click += new System.EventHandler(this.btnSaveNote_Click);
+            // 
             // frmUpdateSection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(750, 518);
+            this.ClientSize = new System.Drawing.Size(747, 531);
+            this.Controls.Add(this.btnSaveNote);
+            this.Controls.Add(this.lblNote);
+            this.Controls.Add(this.txtNote);
             this.Controls.Add(this.btnComplete);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lblOperator);
@@ -194,5 +228,8 @@
         private System.Windows.Forms.BindingSource cviewslimlinestaffBindingSource;
         private user_infoDataSetTableAdapters.c_view_slimline_staffTableAdapter c_view_slimline_staffTableAdapter;
         private System.Windows.Forms.Button btnComplete;
+        private System.Windows.Forms.TextBox txtNote;
+        private System.Windows.Forms.Label lblNote;
+        private System.Windows.Forms.Button btnSaveNote;
     }
 }

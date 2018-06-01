@@ -18,7 +18,68 @@ namespace SlimlineRevisedUI.Forms
         private double _doorID;
         private string _dept;
 
+        public string _sectionNote
+        {
+            get
+            {
 
+                SqlConnection sqlconn = new SqlConnection(SqlStatements.ConnectionString);
+                sqlconn.Open();
+
+                string returnValue = "";
+
+
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = sqlconn;
+                cmd.CommandText = "SELECT sl_stores_note, cutting_note, prepping_note, assembly_note, sl_buff_note , packing_note from dbo.door WHERE id=@doorid;";
+                cmd.Parameters.AddWithValue("@doorid", _doorID);
+                SqlDataReader rdr = cmd.ExecuteReader();
+
+                if (rdr.HasRows)
+                {
+
+                    while (rdr.Read())
+                    {
+                        switch (_dept)
+                        {
+                            case "SL_Stores":
+                                returnValue = rdr["sl_stores_note"].ToString();
+                                break;
+                            case "Cutting":
+                                returnValue = rdr["cutting_note"].ToString();
+                                break;
+                            case "Prepping":
+                                returnValue = rdr["prepping_note"].ToString();
+                                break;
+                            case "Assembly":
+                                returnValue = rdr["assembly_note"].ToString();
+                                break;
+                            case "SL_Buff":
+                                returnValue = rdr["sl_buff_note"].ToString();
+                                break;
+                            case "SL_Pack":
+                                returnValue = rdr["packing_note"].ToString();
+                                break;
+                            default:
+                               
+                                break;
+                        }
+                    }
+
+                }
+                else
+                {
+                    return "";
+                }
+
+                sqlconn.Close();
+
+                return returnValue;
+
+
+            }
+        }
 
 
         public frmUpdateSection(double doorID, string dept)
@@ -29,8 +90,9 @@ namespace SlimlineRevisedUI.Forms
 
             lblDoorID.Text = "Door ID: " + _doorID.ToString();
             lblDept.Text = _dept + " Department";
-            
-            
+            lblNote.Text = _dept + " Note";
+            txtNote.Text = _sectionNote;
+           
 
             //UPDATES OPERATIONS DATAGRID
             SqlConnection con = new SqlConnection(SqlStatements.ConnectionString);
@@ -153,14 +215,6 @@ namespace SlimlineRevisedUI.Forms
 
             }
 
-
-
-
-
-
-
-
-
             
         }
 
@@ -175,6 +229,55 @@ namespace SlimlineRevisedUI.Forms
                 System.Windows.Forms.MessageBox.Show(ex.Message);
             }
 
+        }
+
+        private void btnSaveNote_Click(object sender, EventArgs e)
+        {
+            SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString);
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+
+            try
+            {
+                switch (_dept)
+                {
+                    case "SL_Stores":
+                        cmd.CommandText = "UPDATE dbo.door SET sl_stores_note = @note where id = @id ";
+                        break;
+                    case "Cutting":
+                        cmd.CommandText = "UPDATE dbo.door SET cutting_note = @note where id = @id ";
+                        break;
+                    case "Prepping":
+                        cmd.CommandText = "UPDATE dbo.door SET prepping_note = @note where id = @id ";
+                        break;
+                    case "Assembly":
+                        cmd.CommandText = "UPDATE dbo.door SET assembly_note = @note where id = @id ";
+                        break;
+                    case "SL_Buff":
+                        cmd.CommandText = "UPDATE dbo.door SET sl_buff_note = @note where id = @id ";
+                        break;
+                    case "SL_Pack":
+                        cmd.CommandText = "UPDATE dbo.door SET packing_note = @note where id = @id ";
+                        break;
+                    default:
+
+                        break;
+                }
+
+
+                cmd.Parameters.AddWithValue("@note", txtNote.Text);
+                cmd.Parameters.AddWithValue("@id", _doorID);
+                cmd.ExecuteNonQuery();
+                conn.Close();
+                MessageBox.Show("Note saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch
+            {
+                MessageBox.Show("Error occured saving the note. If this error persists please contact IT", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
         }
     }
 }
