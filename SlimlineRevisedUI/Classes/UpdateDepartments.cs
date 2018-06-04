@@ -275,7 +275,7 @@ namespace SlimlineRevisedUI.Classes
                     cmdClean.CommandText = "UPDATE dbo.door set time_remaining_cutting = 0 WHERE id = @doorID";
                     break;
                 case "Prepping":
-                    cmdClean.CommandText = "UPDATE dbo.door time_remaining_prepping = 0 WHERE id = @doorID";
+                    cmdClean.CommandText = "UPDATE dbo.door set time_remaining_prepping = 0 WHERE id = @doorID";
                     break;
                 case "Assembly":
                     cmdClean.CommandText = "UPDATE dbo.door set  time_remianing_assembly = 0 WHERE id = @doorID";

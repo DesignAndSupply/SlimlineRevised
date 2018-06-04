@@ -140,6 +140,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmWorkAllocation";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Work Allocation";
             this.Load += new System.EventHandler(this.frmWorkAllocation_Load);
             ((System.ComponentModel.ISupportInitialize)(this.user_infoDataSet)).EndInit();

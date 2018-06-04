@@ -148,8 +148,8 @@ namespace SlimlineRevisedUI.Forms
                     {
                         if (ud._SectionCompleteAmount < (n / 100))
                         {
-                            try
-                            {
+                            //try
+                            //{
                                 double percentageToInsert = (n / 100) - ud._SectionCompleteAmount;
                                 double valueTimeToInsert = percentageToInsert * ud._SectionTime;
                                 double valueToUpdateDoor = percentageToInsert * ud._SectionTimeSingular;
@@ -183,11 +183,11 @@ namespace SlimlineRevisedUI.Forms
                                 }
 
                                 this.Close();
-                            }
-                            catch
-                            {
-                                MessageBox.Show("Ann error has occured. Please contact IT.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
+                            //}
+                            //catch
+                            //{
+                                //MessageBox.Show("Ann error has occured. Please contact IT.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            //}
 
 
                         }
