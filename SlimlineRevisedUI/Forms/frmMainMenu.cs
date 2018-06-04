@@ -142,5 +142,10 @@ namespace SlimlineRevisedUI.Forms
             frmWorkAllocation frmWA = new frmWorkAllocation();
             frmWA.ShowDialog();
         }
+
+        private void dgvSections_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

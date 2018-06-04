@@ -31,15 +31,15 @@
             this.components = new System.ComponentModel.Container();
             this.lblOperator = new System.Windows.Forms.Label();
             this.cmbStaffID = new System.Windows.Forms.ComboBox();
-            this.user_infoDataSet = new SlimlineRevisedUI.user_infoDataSet();
             this.cviewslimlinestaffBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.user_infoDataSet = new SlimlineRevisedUI.user_infoDataSet();
             this.c_view_slimline_staffTableAdapter = new SlimlineRevisedUI.user_infoDataSetTableAdapters.c_view_slimline_staffTableAdapter();
             this.dgvAllocation = new System.Windows.Forms.DataGridView();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.user_infoDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cviewslimlinestaffBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.user_infoDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAllocation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -66,15 +66,15 @@
             this.cmbStaffID.TabIndex = 7;
             this.cmbStaffID.ValueMember = "id";
             // 
-            // user_infoDataSet
-            // 
-            this.user_infoDataSet.DataSetName = "user_infoDataSet";
-            this.user_infoDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
             // cviewslimlinestaffBindingSource
             // 
             this.cviewslimlinestaffBindingSource.DataMember = "c_view_slimline_staff";
             this.cviewslimlinestaffBindingSource.DataSource = this.user_infoDataSet;
+            // 
+            // user_infoDataSet
+            // 
+            this.user_infoDataSet.DataSetName = "user_infoDataSet";
+            this.user_infoDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // c_view_slimline_staffTableAdapter
             // 
@@ -94,6 +94,7 @@
             this.dgvAllocation.RowHeadersVisible = false;
             this.dgvAllocation.Size = new System.Drawing.Size(773, 302);
             this.dgvAllocation.TabIndex = 9;
+            this.dgvAllocation.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAllocation_CellContentClick);
             // 
             // btnUpdate
             // 
@@ -143,8 +144,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Work Allocation";
             this.Load += new System.EventHandler(this.frmWorkAllocation_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.user_infoDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cviewslimlinestaffBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.user_infoDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAllocation)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

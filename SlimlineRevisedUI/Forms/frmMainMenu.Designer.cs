@@ -57,6 +57,7 @@
             this.dgvSections.RowHeadersVisible = false;
             this.dgvSections.Size = new System.Drawing.Size(791, 384);
             this.dgvSections.TabIndex = 0;
+            this.dgvSections.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSections_CellContentClick);
             // 
             // txtDoorIDSearch
             // 

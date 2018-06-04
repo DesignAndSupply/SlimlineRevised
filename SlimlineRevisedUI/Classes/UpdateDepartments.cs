@@ -78,6 +78,9 @@ namespace SlimlineRevisedUI.Classes
         }
 
 
+
+
+
         public double _SectionTimeSingular
         {
             get
@@ -186,6 +189,9 @@ namespace SlimlineRevisedUI.Classes
         // End of property list
 
 
+        
+
+
         public UpdateDepartments(double doorID, string section)
         {
             _sectionName = section;
@@ -193,6 +199,63 @@ namespace SlimlineRevisedUI.Classes
 
         }
 
+        public void updateStarted(bool toggleMode)
+        {
+          
+
+            SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString);
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+            
+
+            switch (_sectionName)
+            {
+                case "SL_Stores":
+                    
+                    break;
+                case "Cutting":;
+                    cmd.CommandText = "UPDATE dbo.door_allocation set started_cut = @now where door_id = @doorID";
+                    break;
+                case "Prepping":
+                    cmd.CommandText = "UPDATE dbo.door_allocation set started_prep = @now where door_id = @doorID";
+                    break;
+                case "Assembly":
+                    cmd.CommandText = "UPDATE dbo.door_allocation set started_assembly = @now where door_id = @doorID";
+                    break;
+                case "SL_Buff":
+                    cmd.CommandText = "UPDATE dbo.door_allocation set started_sl_buff = @now where door_id = @doorID";
+                    break;
+                case "SL_Pack":
+                    cmd.CommandText = "UPDATE dbo.door_allocation set started_pack = @now where door_id = @doorID";
+                    break;
+                default:
+                   
+                    break;
+            }
+
+            if (toggleMode == false)
+            {
+                
+                cmd.Parameters.AddWithValue("@now", DateTime.Now);
+                cmd.Parameters.AddWithValue("@doorID", _doorId);
+            }
+            else
+            {
+                
+                cmd.Parameters.AddWithValue("@now", DBNull.Value);
+                cmd.Parameters.AddWithValue("@doorID", _doorId);
+            }
+
+
+
+
+            cmd.ExecuteNonQuery();
+
+            conn.Close();
+
+        }
 
         public void updateDoor(double updateAmount , double updatePercentage)
         {
