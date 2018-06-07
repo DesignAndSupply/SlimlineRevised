@@ -10,20 +10,20 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using SlimlineRevisedUI.Classes;
 
-namespace SlimlineRevisedUI
+namespace SlimlineRevisedUI.Forms
 {
-    public partial class frmLabelFromSC : Form
+    public partial class frmPrintLabelFromPO : Form
     {
-        public frmLabelFromSC()
+        public frmPrintLabelFromPO()
         {
             InitializeComponent();
             dgvStock.CellClick += dgvStock_CellClick;
             fillGrid();
         }
 
-        private void frmLabelFromSC_Load(object sender, EventArgs e)
+        private void btnFilter_Click(object sender, EventArgs e)
         {
-
+            fillGrid();
         }
 
 
@@ -36,11 +36,9 @@ namespace SlimlineRevisedUI
             //UPDATES THE PAINT TO DOOR DATAGRID
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;
-            cmd.CommandText = "Select stock_code, description, amount_in_stock from dbo.stock where slimline_stock_yn = -1 and description like @desc order by stock_code";
-            cmd.Parameters.AddWithValue("@desc","%" +  txtDescription.Text + "%");
+            cmd.CommandText = "Select id as ItemID ,stock_code, description , quantity, additional_info FROM dbo.po_item WHERE po_id = @POID; ";
+            cmd.Parameters.AddWithValue("@POID", txtPO.Text);
             SqlDataAdapter adap = new SqlDataAdapter(cmd);
-
-
 
             try
             {
@@ -53,7 +51,7 @@ namespace SlimlineRevisedUI
                 selectButton.Text = "Print Label";
                 selectButton.Name = "Print Label";
                 selectButton.UseColumnTextForButtonValue = true;
-                int columnIndex = 3;
+                int columnIndex = 4;
 
                 if (dgvStock.Columns["Print Label"] == null)
                 {
@@ -64,35 +62,71 @@ namespace SlimlineRevisedUI
             }
             catch (Exception)
             {
-                MessageBox.Show("Please ensure you enter a valid door number!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+               
             }
-        }
 
-        private void btnFilter_Click(object sender, EventArgs e)
-        {
-            fillGrid();
+
+
         }
 
         private void dgvStock_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            int sc=0;
+            string sc = "0";
+            string ai = "";
+            int ii = 0;
+
             if (dgvStock.SelectedCells.Count > 0)
             {
                 int selectedrowindex = dgvStock.SelectedCells[0].RowIndex;
 
                 DataGridViewRow selectedRow = dgvStock.Rows[selectedrowindex];
 
-                sc = Convert.ToInt32(selectedRow.Cells["stock_code"].Value);
-              
-
+                sc = selectedRow.Cells["stock_code"].Value.ToString();
+                ai = selectedRow.Cells["additional_info"].Value.ToString();
+                ii = Convert.ToInt32(selectedRow.Cells["ItemId"].Value);
             }
 
 
             if (e.ColumnIndex == dgvStock.Columns["Print Label"].Index)
             {
-                Classes.Label lb = new Classes.Label(1,sc);
-                lb.printSmallStockLabel();
+                Classes.Label lb = new Classes.Label(sc,ii);
+
+                double n;
+                bool isNumeric = double.TryParse(ai, out n);
+
+                if (isNumeric)
+                {
+                    lb.printSmallStockLabelDoor(ai);
+                }
+                else
+
+                
+                {
+                    if (ai == "STOCK" || ai =="Stk" || ai =="Stock" || ai=="STK")
+                    {
+                        lb.printSmallStockLabel();
+                    }
+                    else
+                    {
+                        lb.printSmallStockLabelDoor(ai);
+                    }
+
+
+                   
+                }
+                
+                
             }
+        }
+
+        private void frmPrintLabelFromPO_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvStock_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

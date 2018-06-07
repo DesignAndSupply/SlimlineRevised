@@ -153,5 +153,11 @@ namespace SlimlineRevisedUI.Forms
             frmLabelFromSC frml = new frmLabelFromSC();
             frml.ShowDialog();
         }
+
+        private void printLabelFromPurchaseOrderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmPrintLabelFromPO frml = new frmPrintLabelFromPO();
+            frml.ShowDialog();
+        }
     }
 }

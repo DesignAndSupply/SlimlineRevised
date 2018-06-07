@@ -151,6 +151,7 @@
             this.printLabelFromPurchaseOrderToolStripMenuItem.Name = "printLabelFromPurchaseOrderToolStripMenuItem";
             this.printLabelFromPurchaseOrderToolStripMenuItem.Size = new System.Drawing.Size(241, 22);
             this.printLabelFromPurchaseOrderToolStripMenuItem.Text = "Print Label from purchase order";
+            this.printLabelFromPurchaseOrderToolStripMenuItem.Click += new System.EventHandler(this.printLabelFromPurchaseOrderToolStripMenuItem_Click);
             // 
             // frmMainMenu
             // 
