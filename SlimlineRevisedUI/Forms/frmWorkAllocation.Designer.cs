@@ -122,9 +122,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(228, 40);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(516, 13);
+            this.label1.Size = new System.Drawing.Size(347, 13);
             this.label1.TabIndex = 12;
-            this.label1.Text = "STILL UNDER DEVELOPMENT ALLOCATION WORKS BUT THE TAKEN AND LABEL BUTTONS DONT";
+            this.label1.Text = "STILL UNDER DEVELOPEMENT.... LABEL BUTTON NOT WORKING";
             // 
             // frmWorkAllocation
             // 

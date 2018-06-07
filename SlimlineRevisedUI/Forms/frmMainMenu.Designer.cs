@@ -36,6 +36,10 @@
             this.btnLooseItems = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.viewAllocationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stockManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.printLabelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.printLabelFromStockCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.printLabelFromPurchaseOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSections)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -103,7 +107,8 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.viewAllocationToolStripMenuItem});
+            this.viewAllocationToolStripMenuItem,
+            this.stockManagementToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(816, 24);
@@ -116,6 +121,36 @@
             this.viewAllocationToolStripMenuItem.Size = new System.Drawing.Size(101, 20);
             this.viewAllocationToolStripMenuItem.Text = "View Allocation";
             this.viewAllocationToolStripMenuItem.Click += new System.EventHandler(this.viewAllocationToolStripMenuItem_Click);
+            // 
+            // stockManagementToolStripMenuItem
+            // 
+            this.stockManagementToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.printLabelToolStripMenuItem});
+            this.stockManagementToolStripMenuItem.Name = "stockManagementToolStripMenuItem";
+            this.stockManagementToolStripMenuItem.Size = new System.Drawing.Size(122, 20);
+            this.stockManagementToolStripMenuItem.Text = "Stock Management";
+            // 
+            // printLabelToolStripMenuItem
+            // 
+            this.printLabelToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.printLabelFromStockCodeToolStripMenuItem,
+            this.printLabelFromPurchaseOrderToolStripMenuItem});
+            this.printLabelToolStripMenuItem.Name = "printLabelToolStripMenuItem";
+            this.printLabelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.printLabelToolStripMenuItem.Text = "Print Label";
+            // 
+            // printLabelFromStockCodeToolStripMenuItem
+            // 
+            this.printLabelFromStockCodeToolStripMenuItem.Name = "printLabelFromStockCodeToolStripMenuItem";
+            this.printLabelFromStockCodeToolStripMenuItem.Size = new System.Drawing.Size(241, 22);
+            this.printLabelFromStockCodeToolStripMenuItem.Text = "Print Label from description";
+            this.printLabelFromStockCodeToolStripMenuItem.Click += new System.EventHandler(this.printLabelFromStockCodeToolStripMenuItem_Click);
+            // 
+            // printLabelFromPurchaseOrderToolStripMenuItem
+            // 
+            this.printLabelFromPurchaseOrderToolStripMenuItem.Name = "printLabelFromPurchaseOrderToolStripMenuItem";
+            this.printLabelFromPurchaseOrderToolStripMenuItem.Size = new System.Drawing.Size(241, 22);
+            this.printLabelFromPurchaseOrderToolStripMenuItem.Text = "Print Label from purchase order";
             // 
             // frmMainMenu
             // 
@@ -153,5 +188,9 @@
         private System.Windows.Forms.Button btnLooseItems;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem viewAllocationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem stockManagementToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem printLabelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem printLabelFromStockCodeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem printLabelFromPurchaseOrderToolStripMenuItem;
     }
 }

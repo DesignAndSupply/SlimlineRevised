@@ -147,5 +147,11 @@ namespace SlimlineRevisedUI.Forms
         {
 
         }
+
+        private void printLabelFromStockCodeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmLabelFromSC frml = new frmLabelFromSC();
+            frml.ShowDialog();
+        }
     }
 }
