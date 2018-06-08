@@ -40,6 +40,7 @@
             this.printLabelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printLabelFromStockCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printLabelFromPurchaseOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bookOutConsumableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSections)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -125,7 +126,8 @@
             // stockManagementToolStripMenuItem
             // 
             this.stockManagementToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.printLabelToolStripMenuItem});
+            this.printLabelToolStripMenuItem,
+            this.bookOutConsumableToolStripMenuItem});
             this.stockManagementToolStripMenuItem.Name = "stockManagementToolStripMenuItem";
             this.stockManagementToolStripMenuItem.Size = new System.Drawing.Size(122, 20);
             this.stockManagementToolStripMenuItem.Text = "Stock Management";
@@ -136,7 +138,7 @@
             this.printLabelFromStockCodeToolStripMenuItem,
             this.printLabelFromPurchaseOrderToolStripMenuItem});
             this.printLabelToolStripMenuItem.Name = "printLabelToolStripMenuItem";
-            this.printLabelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.printLabelToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.printLabelToolStripMenuItem.Text = "Print Label";
             // 
             // printLabelFromStockCodeToolStripMenuItem
@@ -152,6 +154,13 @@
             this.printLabelFromPurchaseOrderToolStripMenuItem.Size = new System.Drawing.Size(241, 22);
             this.printLabelFromPurchaseOrderToolStripMenuItem.Text = "Print Label from purchase order";
             this.printLabelFromPurchaseOrderToolStripMenuItem.Click += new System.EventHandler(this.printLabelFromPurchaseOrderToolStripMenuItem_Click);
+            // 
+            // bookOutConsumableToolStripMenuItem
+            // 
+            this.bookOutConsumableToolStripMenuItem.Name = "bookOutConsumableToolStripMenuItem";
+            this.bookOutConsumableToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.bookOutConsumableToolStripMenuItem.Text = "Book out consumable";
+            this.bookOutConsumableToolStripMenuItem.Click += new System.EventHandler(this.bookOutConsumableToolStripMenuItem_Click);
             // 
             // frmMainMenu
             // 
@@ -193,5 +202,6 @@
         private System.Windows.Forms.ToolStripMenuItem printLabelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem printLabelFromStockCodeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem printLabelFromPurchaseOrderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem bookOutConsumableToolStripMenuItem;
     }
 }

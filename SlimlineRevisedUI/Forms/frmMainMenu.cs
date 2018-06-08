@@ -159,5 +159,11 @@ namespace SlimlineRevisedUI.Forms
             frmPrintLabelFromPO frml = new frmPrintLabelFromPO();
             frml.ShowDialog();
         }
+
+        private void bookOutConsumableToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmConsumableBooking frmCB = new frmConsumableBooking();
+            frmCB.ShowDialog();
+        }
     }
 }
