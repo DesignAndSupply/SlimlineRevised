@@ -31,7 +31,7 @@ namespace SlimlineRevisedUI.Forms
             conn.Open();
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = conn;
-            cmd.CommandText = "Select stock_code,description, amount_in_stock from dbo.stock where slimline_stock_yn = -1 and consumable_identifier = -1 and (stock_code like @filter or description like @filter)";
+            cmd.CommandText = "Select stock_code,description, amount_in_stock from dbo.stock where slimline_stock_yn = -1 and consumable_identifier = -1 and (stock_code like @filter or description like @filter order by description)";
             cmd.Parameters.AddWithValue("@filter", "%" + txtFilter.Text + "%");
             DataSet ds = new DataSet();
 

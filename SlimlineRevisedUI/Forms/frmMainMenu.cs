@@ -18,9 +18,6 @@ namespace SlimlineRevisedUI.Forms
         private double doorID;
         private string operation;
 
-
-
-
         public frmMainMenu()
         {
             InitializeComponent();

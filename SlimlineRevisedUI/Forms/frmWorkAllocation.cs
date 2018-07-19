@@ -126,6 +126,17 @@ namespace SlimlineRevisedUI.Forms
             }
 
 
+            if (e.ColumnIndex == dgvAllocation.Columns["Print Label"].Index)
+            {
+
+                PackingLabel pl = new PackingLabel();
+
+                pl.printSmallPackingLabel(doorID.ToString());
+                pl.printLargePackingLabel(doorID.ToString());
+               
+            }
+
+
 
 
 

@@ -117,6 +117,25 @@ namespace SlimlineRevisedUI.Classes
 
 
 
+        public void printSmallPackingLabel(string doorID)
+        {
+
+            Door d = new Door(Convert.ToDouble(doorID));
+
+            ComponentInfo.SetLicense("FREE-LIMITED-KEY");
+            DocumentModel document = DocumentModel.Load(@"\\designsvr1\apps\Design and Supply CSharp\ShopFloorApps\SlimlineRevised\PackingLabelSmall.docx");
+
+            document.Bookmarks["CustomerName"].GetContent(false).LoadText(d._customerName);
+            document.Bookmarks["DoorNumber"].GetContent(false).LoadText(d._doorID.ToString());
+            document.Bookmarks["DoorType"].GetContent(false).LoadText(d._doorType);
+            document.Bookmarks["OrderNumber"].GetContent(false).LoadText(d._orderNumber);
+            document.Bookmarks["Ref"].GetContent(false).LoadText(d._ref);
+            
+            document.Print("ZDesigner GK420d");
+        }
+
+
+
     }
 
 

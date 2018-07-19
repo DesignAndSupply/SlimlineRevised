@@ -24,7 +24,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>10</ApplicationRevision>
+    <ApplicationRevision>20</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -66,6 +66,9 @@
     <Reference Include="GemBox.Document, Version=29.0.35.1000, Culture=neutral, PublicKeyToken=b1b72c69714d4847, processorArchitecture=MSIL">
       <HintPath>..\packages\GemBox.Document.29.0.0.1000\lib\net35\GemBox.Document.dll</HintPath>
     </Reference>
+    <Reference Include="RawPrint, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RawPrint.0.2.0.0\lib\net40\RawPrint.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -78,7 +81,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Door.cs" />
     <Compile Include="Classes\Label.cs" />
+    <Compile Include="Classes\PackingLabel.cs" />
     <Compile Include="Classes\SqlStatements.cs" />
     <Compile Include="Classes\UpdateDepartments.cs" />
     <Compile Include="Forms\frmConsumableBooking.cs">
