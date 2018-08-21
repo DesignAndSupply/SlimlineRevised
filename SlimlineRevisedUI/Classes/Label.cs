@@ -79,7 +79,7 @@ namespace SlimlineRevisedUI.Classes
             document.Bookmarks["BC"].GetContent(false).LoadText("*" + _sc.ToString() + "*");
             
 
-            document.Print("ZDesigner GK420d");
+            document.Print("ZDesignerGK420d");
         }
 
 
@@ -96,7 +96,7 @@ namespace SlimlineRevisedUI.Classes
             document.Bookmarks["BC"].GetContent(false).LoadText(doorID);
 
 
-            document.Print("ZDesigner GK420d");
+            document.Print("ZDesignerGK420d");
         }
 
 
@@ -112,7 +112,7 @@ namespace SlimlineRevisedUI.Classes
             document.Bookmarks["BC"].GetContent(false).LoadText(doorID);
 
 
-            document.Print("ZDesigner GK420d");
+            document.Print("ZDesignerGK420d");
         }
 
 
@@ -131,7 +131,7 @@ namespace SlimlineRevisedUI.Classes
             document.Bookmarks["OrderNumber"].GetContent(false).LoadText(d._orderNumber);
             document.Bookmarks["Ref"].GetContent(false).LoadText(d._ref);
             
-            document.Print("ZDesigner GK420d");
+            document.Print("ZDesignerGK420d");
         }
 
 

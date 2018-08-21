@@ -21,8 +21,6 @@ namespace SlimlineRevisedUI.Forms
             fillList();
         }
 
-        
-
 
         private void fillList()
         {

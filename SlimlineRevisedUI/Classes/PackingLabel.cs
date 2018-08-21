@@ -31,7 +31,7 @@ namespace SlimlineRevisedUI.Classes
             document.Bookmarks["OrderNumber"].GetContent(false).LoadText(d._orderNumber);
             document.Bookmarks["Ref"].GetContent(false).LoadText(d._ref);
 
-           document.Print("ZDesigner GK420d",p);
+           document.Print("ZDesignerGK420d",p);
         }
 
         public void printLargePackingLabel(string doorID)
