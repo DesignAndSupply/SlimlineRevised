@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using System.Data;
 
 namespace SlimlineRevisedUI.Classes
 {
@@ -40,7 +41,7 @@ namespace SlimlineRevisedUI.Classes
                         switch (_sectionName)
                         {
                             case "SL_Stores":
-                                returnValue= Convert.ToDouble(rdr["time_sl_stores"]) * Convert.ToInt32(rdr["quantity_same"]);
+                                returnValue= Convert.ToDouble(rdr["time_sl_stores"]);
                                 break;
                             case "Cutting":
                                 returnValue = Convert.ToDouble(rdr["time_cutting"]) * Convert.ToInt32(rdr["quantity_same"]);
@@ -76,9 +77,6 @@ namespace SlimlineRevisedUI.Classes
 
             }
         }
-
-
-
 
 
         public double _SectionTimeSingular
@@ -295,6 +293,12 @@ namespace SlimlineRevisedUI.Classes
 
             if (updatePercentage == 100)
             {
+                if(_sectionName == "SL_Buff")
+                {
+                    checkIFSRAddon();
+                }
+
+
                 cmd.Parameters.AddWithValue("@amountToDeduct", updateAmount);
                 cmd.Parameters.AddWithValue("@doorID", _doorId);
                 cmd.Parameters.AddWithValue("@dateComp", DateTime.Now);
@@ -319,6 +323,21 @@ namespace SlimlineRevisedUI.Classes
 
 
             
+        }
+
+        private void checkIFSRAddon()
+        {
+            SqlConnection conn2 = new SqlConnection(SqlStatements.ConnectionString);
+            conn2.Open();
+            SqlCommand cmd2 = new SqlCommand("usp_notify_sr_addons_complete",conn2);
+            cmd2.CommandType = System.Data.CommandType.StoredProcedure;
+            
+
+            cmd2.Parameters.AddWithValue("@doorID", SqlDbType.Int).Value = _doorId;
+
+            cmd2.ExecuteNonQuery();
+
+
         }
 
         private void cleanUpTimeRemain()

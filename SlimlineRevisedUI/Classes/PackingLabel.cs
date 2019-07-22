@@ -22,7 +22,7 @@ namespace SlimlineRevisedUI.Classes
             ComponentInfo.SetLicense("FREE-LIMITED-KEY");
             DocumentModel document = DocumentModel.Load(@"\\designsvr1\apps\Design and Supply CSharp\ShopFloorApps\SlimlineRevised\PackingLabelSmall.docx");
             PrintOptions p = new PrintOptions();
-            p.CopyCount = 3;
+            p.CopyCount = 4;
 
 
             document.Bookmarks["CustomerName"].GetContent(false).LoadText(d._customerName);
