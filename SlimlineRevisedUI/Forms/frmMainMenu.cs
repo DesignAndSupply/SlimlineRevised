@@ -162,5 +162,22 @@ namespace SlimlineRevisedUI.Forms
             frmConsumableBooking frmCB = new frmConsumableBooking();
             frmCB.ShowDialog();
         }
+
+        private void btn_repaint_Click(object sender, EventArgs e)
+        {
+            if (txtDoorIDSearch.TextLength > 0)
+            {
+                frmRepaint frm = new frmRepaint(Convert.ToInt32(txtDoorIDSearch.Text));
+                frm.ShowDialog();
+            }
+        }
+
+        private void txtDoorIDSearch_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

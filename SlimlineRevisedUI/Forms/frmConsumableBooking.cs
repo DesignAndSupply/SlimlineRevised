@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using SlimlineRevisedUI.Classes;
+using System;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Data.SqlClient;
-using SlimlineRevisedUI.Classes;
+using System.Windows.Forms;
 
 namespace SlimlineRevisedUI.Forms
 {
@@ -17,14 +11,12 @@ namespace SlimlineRevisedUI.Forms
         public frmConsumableBooking()
         {
             InitializeComponent();
-           
+
             fillList();
         }
 
-
         private void fillList()
         {
-
             SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString);
             conn.Open();
             SqlCommand cmd = new SqlCommand();
@@ -33,18 +25,12 @@ namespace SlimlineRevisedUI.Forms
             cmd.Parameters.AddWithValue("@filter", "%" + txtFilter.Text + "%");
             DataSet ds = new DataSet();
 
-            
-
-
             SqlDataAdapter adapter = new SqlDataAdapter(
             cmd);
             adapter.Fill(ds);
             this.lstStock.DataSource = ds.Tables[0];
             this.lstStock.ValueMember = "stock_code";
             this.lstStock.DisplayMember = "description";
-
-
-
         }
 
         private void txtFilter_TextChanged(object sender, EventArgs e)
@@ -64,8 +50,6 @@ namespace SlimlineRevisedUI.Forms
             this.dgvItems.Rows.Add(lstStock.SelectedValue, (lstStock.SelectedItem as DataRowView)["Description"].ToString(), 1, "");
         }
 
-
-
         private void btnSubmit_Click(object sender, EventArgs e)
         {
             //Check for 0 Values
@@ -74,19 +58,14 @@ namespace SlimlineRevisedUI.Forms
             int emptyGridCheck = dgvItems.Rows.Count;
             int selectedOperator = cmbStaffID.SelectedIndex;
 
-
-
-            foreach (DataGridViewRow row in dgvItems.Rows) { 
-
-
+            foreach (DataGridViewRow row in dgvItems.Rows)
+            {
                 string qtyCheck = row.Cells["Quantity"].Value.ToString();
-
 
                 if (qtyCheck == "0" || qtyCheck == "")
                 {
                     zeroValueFound = true;
                 }
-               
             }
 
             if (zeroValueFound == true)
@@ -111,14 +90,10 @@ namespace SlimlineRevisedUI.Forms
                     }
                 }
             }
-
-
         }
-
 
         private void updateStock()
         {
-
             SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString);
             conn.Open();
 
@@ -127,9 +102,8 @@ namespace SlimlineRevisedUI.Forms
             cmd.Connection = conn;
             cmd2.Connection = conn;
 
-            foreach(DataGridViewRow row in dgvItems.Rows)
+            foreach (DataGridViewRow row in dgvItems.Rows)
             {
-
                 cmd.Parameters.Clear();
                 cmd2.Parameters.Clear();
 
@@ -137,9 +111,6 @@ namespace SlimlineRevisedUI.Forms
                 cmd.Parameters.AddWithValue("@qty", Convert.ToDouble(row.Cells["Quantity"].Value));
                 cmd.Parameters.AddWithValue("@sc", row.Cells["StockCode"].Value.ToString());
                 cmd.ExecuteNonQuery();
-
-
-
 
                 cmd2.CommandText = "INSERT INTO dbo.stock_log(item_name, quantity,staff_name,transaction_date, stock_code) " +
                                     "VALUES(@itemName,@qty,@staffName,@transactionDate,@sc);";
@@ -149,16 +120,9 @@ namespace SlimlineRevisedUI.Forms
                 cmd2.Parameters.AddWithValue("@transactionDate", DateTime.Now);
                 cmd2.Parameters.AddWithValue("@staffName", cmbStaffID.Text);
                 cmd2.ExecuteNonQuery();
-
-
             }
-
-
 
             conn.Close();
         }
-
-
-
     }
 }

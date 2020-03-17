@@ -41,6 +41,7 @@
             this.printLabelFromStockCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printLabelFromPurchaseOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bookOutConsumableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btn_repaint = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSections)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -72,6 +73,7 @@
             this.txtDoorIDSearch.Name = "txtDoorIDSearch";
             this.txtDoorIDSearch.Size = new System.Drawing.Size(73, 20);
             this.txtDoorIDSearch.TabIndex = 1;
+            this.txtDoorIDSearch.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDoorIDSearch_KeyPress);
             // 
             // btnLoadDoor
             // 
@@ -162,12 +164,23 @@
             this.bookOutConsumableToolStripMenuItem.Text = "Book out consumable";
             this.bookOutConsumableToolStripMenuItem.Click += new System.EventHandler(this.bookOutConsumableToolStripMenuItem_Click);
             // 
+            // btn_repaint
+            // 
+            this.btn_repaint.Location = new System.Drawing.Point(549, 164);
+            this.btn_repaint.Name = "btn_repaint";
+            this.btn_repaint.Size = new System.Drawing.Size(95, 23);
+            this.btn_repaint.TabIndex = 12;
+            this.btn_repaint.Text = "Mark as repaint";
+            this.btn_repaint.UseVisualStyleBackColor = true;
+            this.btn_repaint.Click += new System.EventHandler(this.btn_repaint_Click);
+            // 
             // frmMainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(816, 589);
+            this.Controls.Add(this.btn_repaint);
             this.Controls.Add(this.btnLooseItems);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnLoadDoor);
@@ -179,6 +192,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmMainMenu";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Slimline Main Menu";
             ((System.ComponentModel.ISupportInitialize)(this.dgvSections)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -203,5 +217,6 @@
         private System.Windows.Forms.ToolStripMenuItem printLabelFromStockCodeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem printLabelFromPurchaseOrderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bookOutConsumableToolStripMenuItem;
+        private System.Windows.Forms.Button btn_repaint;
     }
 }
