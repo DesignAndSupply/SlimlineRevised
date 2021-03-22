@@ -162,5 +162,11 @@ namespace SlimlineRevisedUI.Forms
             frmConsumableBooking frmCB = new frmConsumableBooking();
             frmCB.ShowDialog();
         }
+
+        private void AllocateWorkToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmAllocateWork frmAW = new frmAllocateWork();
+            frmAW.ShowDialog();
+        }
     }
 }
