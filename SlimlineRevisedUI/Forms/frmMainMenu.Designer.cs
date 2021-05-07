@@ -42,6 +42,7 @@
             this.printLabelFromPurchaseOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bookOutConsumableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.allocateWorkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.packingListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSections)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -111,7 +112,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewAllocationToolStripMenuItem,
             this.stockManagementToolStripMenuItem,
-            this.allocateWorkToolStripMenuItem});
+            this.allocateWorkToolStripMenuItem,
+            this.packingListToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(816, 24);
@@ -171,6 +173,13 @@
             this.allocateWorkToolStripMenuItem.Text = "Allocate Work";
             this.allocateWorkToolStripMenuItem.Click += new System.EventHandler(this.AllocateWorkToolStripMenuItem_Click);
             // 
+            // packingListToolStripMenuItem
+            // 
+            this.packingListToolStripMenuItem.Name = "packingListToolStripMenuItem";
+            this.packingListToolStripMenuItem.Size = new System.Drawing.Size(82, 20);
+            this.packingListToolStripMenuItem.Text = "Packing List";
+            this.packingListToolStripMenuItem.Click += new System.EventHandler(this.packingListToolStripMenuItem_Click);
+            // 
             // frmMainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -213,5 +222,6 @@
         private System.Windows.Forms.ToolStripMenuItem printLabelFromPurchaseOrderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bookOutConsumableToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem allocateWorkToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem packingListToolStripMenuItem;
     }
 }

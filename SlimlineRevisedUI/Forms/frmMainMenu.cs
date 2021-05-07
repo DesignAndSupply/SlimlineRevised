@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using SlimlineRevisedUI.Classes;
+using System.Diagnostics;
 
 namespace SlimlineRevisedUI.Forms
 {
@@ -73,6 +74,17 @@ namespace SlimlineRevisedUI.Forms
                     dgvSections.Columns.Insert(columnIndex, selectButton);
                 }
 
+                DataGridViewButtonColumn packingButton = new DataGridViewButtonColumn();
+                packingButton.Text = "Packing List";
+                packingButton.Name = "Packing List";
+                packingButton.UseColumnTextForButtonValue = true;
+                columnIndex = 5;
+
+                if (dgvSections.Columns["Packing List"] == null)
+                {
+                    dgvSections.Columns.Insert(columnIndex, packingButton);
+                }
+
 
             }
             catch (Exception)
@@ -104,9 +116,42 @@ namespace SlimlineRevisedUI.Forms
 
             if (e.ColumnIndex == dgvSections.Columns["Update Department"].Index)
             {
-                frmUpdateSection frmUS = new frmUpdateSection(doorID,operation);
+                frmUpdateSection frmUS = new frmUpdateSection(doorID, operation);
                 frmUS.ShowDialog();
                 fillGrid();
+            }
+
+            if (e.ColumnIndex == dgvSections.Columns["Packing List"].Index)
+            {
+                if (txtDoorIDSearch.Text.Length > 0)
+                {
+                    string temp = @"\\designsvr1\apps\Design and Supply MS ACCESS\Frontend\ShopFloorUpdate\SlimlineDelivery\Packing Lists\" + txtDoorIDSearch.Text + ".pdf";
+
+                    //Process process = new Process();
+                    //ProcessStartInfo startInfo = new ProcessStartInfo();
+
+                    //process.StartInfo = startInfo;
+
+                    //startInfo.FileName = temp;
+
+                    Process p = new Process();
+                    p.StartInfo = new ProcessStartInfo()
+                    {
+                        CreateNoWindow = true,
+                        Verb = "print",
+                        FileName = temp //put the correct path here
+                    };
+                  
+
+                    try
+                    {
+                        p.Start();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("This door does not have a packing list, please check with management.", "404", MessageBoxButtons.OK);
+                    }
+                }
             }
 
 
@@ -167,6 +212,12 @@ namespace SlimlineRevisedUI.Forms
         {
             frmAllocateWork frmAW = new frmAllocateWork();
             frmAW.ShowDialog();
+        }
+
+        private void packingListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmPackingList frm = new frmPackingList();
+            frm.ShowDialog();
         }
     }
 }

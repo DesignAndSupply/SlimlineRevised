@@ -62,7 +62,7 @@ namespace SlimlineRevisedUI.Forms
                                 returnValue = rdr["packing_note"].ToString();
                                 break;
                             default:
-                               
+
                                 break;
                         }
                     }
@@ -92,7 +92,7 @@ namespace SlimlineRevisedUI.Forms
             lblDept.Text = _dept + " Department";
             lblNote.Text = _dept + " Note";
             txtNote.Text = _sectionNote;
-           
+
 
             //UPDATES OPERATIONS DATAGRID
             SqlConnection con = new SqlConnection(SqlStatements.ConnectionString);
@@ -130,11 +130,11 @@ namespace SlimlineRevisedUI.Forms
             cmbStaffID.SelectedIndex = -1;
         }
 
-       
+
 
         private void btnComplete_Click(object sender, EventArgs e)
         {
-            UpdateDepartments ud = new UpdateDepartments(_doorID,_dept);
+            UpdateDepartments ud = new UpdateDepartments(_doorID, _dept);
 
             double n;
             bool isNumeric = Double.TryParse(txtPercentage.Text, out n);
@@ -148,8 +148,44 @@ namespace SlimlineRevisedUI.Forms
                     {
                         if (ud._SectionCompleteAmount < (n / 100))
                         {
-                            //try
-                            //{
+                            try
+                            {
+
+                                // here we are going to ask them if this job is signed off
+                                int door_id = Convert.ToInt32(_doorID);
+                                DialogResult result = MessageBox.Show("Has this job been signed off?", "Slimline", MessageBoxButtons.YesNo);
+                                if (result == DialogResult.No)
+                                {
+                                    //timestamp + email
+                                    using (SqlConnection connStamp = new SqlConnection(SqlStatements.ConnectionString))
+                                    {
+                                        connStamp.Open();
+                                        using (SqlCommand cmdStamp = new SqlCommand("usp_slimline_packing", connStamp))
+                                        {
+                                            cmdStamp.CommandType = CommandType.StoredProcedure;
+                                            cmdStamp.Parameters.Add("@door_id", SqlDbType.Int).Value = door_id;
+                                            cmdStamp.Parameters.Add("@pressed", SqlDbType.VarChar).Value = "No";
+                                            cmdStamp.ExecuteNonQuery();
+                                            return;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    using (SqlConnection connStamp = new SqlConnection(SqlStatements.ConnectionString))
+                                    {
+                                        connStamp.Open();
+                                        using (SqlCommand cmdStamp = new SqlCommand("usp_slimline_packing", connStamp))
+                                        {
+                                            cmdStamp.CommandType = CommandType.StoredProcedure;
+                                            cmdStamp.Parameters.Add("@door_id", SqlDbType.Int).Value = door_id;
+                                            cmdStamp.Parameters.Add("@pressed", SqlDbType.VarChar).Value = "Yes";
+                                            cmdStamp.ExecuteNonQuery();
+                                        }
+                                    }
+                                }
+
+
                                 double percentageToInsert = (n / 100) - ud._SectionCompleteAmount;
                                 double valueTimeToInsert = percentageToInsert * ud._SectionTime;
                                 double valueToUpdateDoor = percentageToInsert * ud._SectionTimeSingular;
@@ -176,108 +212,108 @@ namespace SlimlineRevisedUI.Forms
                                 ud.calibrate();
                                 MessageBox.Show("Section successfully Updated", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                                if(n == 100 && _dept == "SL_Pack")
+                                if (n == 100 && _dept == "SL_Pack")
                                 {
                                     frmLooseItems frmLI = new frmLooseItems(_doorID);
                                     frmLI.ShowDialog();
                                 }
 
                                 this.Close();
-                            //}
-                            //catch
-                            //{
-                                //MessageBox.Show("Ann error has occured. Please contact IT.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            //}
+                            }
+                            catch
+                            {
+                                MessageBox.Show("Ann error has occured. Please contact IT.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
 
 
                         }
                         else
-                        {
-                            MessageBox.Show("The value you have entered is less or equal to the current progress on the job (" + ud._SectionCompleteAmount * 100 + "%)", "Value lower than current progress", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            {
+                                MessageBox.Show("The value you have entered is less or equal to the current progress on the job (" + ud._SectionCompleteAmount * 100 + "%)", "Value lower than current progress", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
                         }
+                        else
+                        {
+                            MessageBox.Show("Value must be less than or equal to 100!", "Value too high!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+
+
+
                     }
                     else
                     {
-                        MessageBox.Show("Value must be less than or equal to 100!", "Value too high!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Only whole number percentages 1-100 can be used. No decimals allowed!", "Whole numbers", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-
-
-
                 }
                 else
                 {
-                    MessageBox.Show("Only whole number percentages 1-100 can be used. No decimals allowed!", "Whole numbers", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Please select a staff member before attempting to continue", "Select staff member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                 }
-            }
-            else
-            {
-                MessageBox.Show("Please select a staff member before attempting to continue", "Select staff member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
 
             }
 
-            
-        }
-
-        private void fillByToolStripButton_Click(object sender, EventArgs e)
-        {
-            try
+            private void fillByToolStripButton_Click(object sender, EventArgs e)
             {
-                this.c_view_slimline_staffTableAdapter.FillBy(this.user_infoDataSet.c_view_slimline_staff);
-            }
-            catch (System.Exception ex)
-            {
-                System.Windows.Forms.MessageBox.Show(ex.Message);
-            }
-
-        }
-
-        private void btnSaveNote_Click(object sender, EventArgs e)
-        {
-            SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString);
-            conn.Open();
-
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = conn;
-
-            try
-            {
-                switch (_dept)
+                try
                 {
-                    case "SL_Stores":
-                        cmd.CommandText = "UPDATE dbo.door SET sl_stores_note = @note where id = @id ";
-                        break;
-                    case "Cutting":
-                        cmd.CommandText = "UPDATE dbo.door SET cutting_note = @note where id = @id ";
-                        break;
-                    case "Prepping":
-                        cmd.CommandText = "UPDATE dbo.door SET prepping_note = @note where id = @id ";
-                        break;
-                    case "Assembly":
-                        cmd.CommandText = "UPDATE dbo.door SET assembly_note = @note where id = @id ";
-                        break;
-                    case "SL_Buff":
-                        cmd.CommandText = "UPDATE dbo.door SET sl_buff_note = @note where id = @id ";
-                        break;
-                    case "SL_Pack":
-                        cmd.CommandText = "UPDATE dbo.door SET packing_note = @note where id = @id ";
-                        break;
-                    default:
-
-                        break;
+                    this.c_view_slimline_staffTableAdapter.FillBy(this.user_infoDataSet.c_view_slimline_staff);
+                }
+                catch (System.Exception ex)
+                {
+                    System.Windows.Forms.MessageBox.Show(ex.Message);
                 }
 
+            }
 
-                cmd.Parameters.AddWithValue("@note", txtNote.Text);
-                cmd.Parameters.AddWithValue("@id", _doorID);
-                cmd.ExecuteNonQuery();
-                conn.Close();
-                MessageBox.Show("Note saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch
+            private void btnSaveNote_Click(object sender, EventArgs e)
             {
-                MessageBox.Show("Error occured saving the note. If this error persists please contact IT", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString);
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+
+                try
+                {
+                    switch (_dept)
+                    {
+                        case "SL_Stores":
+                            cmd.CommandText = "UPDATE dbo.door SET sl_stores_note = @note where id = @id ";
+                            break;
+                        case "Cutting":
+                            cmd.CommandText = "UPDATE dbo.door SET cutting_note = @note where id = @id ";
+                            break;
+                        case "Prepping":
+                            cmd.CommandText = "UPDATE dbo.door SET prepping_note = @note where id = @id ";
+                            break;
+                        case "Assembly":
+                            cmd.CommandText = "UPDATE dbo.door SET assembly_note = @note where id = @id ";
+                            break;
+                        case "SL_Buff":
+                            cmd.CommandText = "UPDATE dbo.door SET sl_buff_note = @note where id = @id ";
+                            break;
+                        case "SL_Pack":
+                            cmd.CommandText = "UPDATE dbo.door SET packing_note = @note where id = @id ";
+                            break;
+                        default:
+
+                            break;
+                    }
+
+
+                    cmd.Parameters.AddWithValue("@note", txtNote.Text);
+                    cmd.Parameters.AddWithValue("@id", _doorID);
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+                    MessageBox.Show("Note saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch
+                {
+                    MessageBox.Show("Error occured saving the note. If this error persists please contact IT", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
             }
-            
         }
     }
-}
