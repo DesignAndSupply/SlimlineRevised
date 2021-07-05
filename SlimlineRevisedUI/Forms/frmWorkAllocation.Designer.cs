@@ -94,6 +94,7 @@
             this.dgvAllocation.Size = new System.Drawing.Size(773, 302);
             this.dgvAllocation.TabIndex = 9;
             this.dgvAllocation.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAllocation_CellContentClick);
+            this.dgvAllocation.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvAllocation_CellFormatting);
             // 
             // btnUpdate
             // 
@@ -133,6 +134,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Work Allocation";
             this.Load += new System.EventHandler(this.frmWorkAllocation_Load);
+            this.Shown += new System.EventHandler(this.frmWorkAllocation_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.cviewslimlinestaffBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.user_infoDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAllocation)).EndInit();
