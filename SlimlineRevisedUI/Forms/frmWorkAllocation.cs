@@ -129,7 +129,7 @@ namespace SlimlineRevisedUI.Forms
             {
 
             }
-            //dgvAllocation.Columns[dgvAllocation.Columns.Count - 1].Visible = false;
+            dgvAllocation.Columns[dgvAllocation.Columns.Count - 1].Visible = false;
         }
 
         private void dgvAllocation_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -167,6 +167,8 @@ namespace SlimlineRevisedUI.Forms
             {
                 int actionIndex = 0;
                 int sectionIndex = 0;
+                int doorIDIndex = 0;
+                doorIDIndex = dgvAllocation.Columns["id"].Index;
                 sectionIndex = dgvAllocation.Columns["section"].Index;
                 int door_id = 0;
                 string section = "";
@@ -186,6 +188,11 @@ namespace SlimlineRevisedUI.Forms
                     sql = "Select id FROM [user_info].dbo.[user] where forename + ' ' + surname = '" + cmbStaffID.Text + "'";
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                         staff_id = Convert.ToInt32(cmd.ExecuteScalar());
+
+                    //add the note
+                    frmNoteEntry frm = new frmNoteEntry(section, door_id,staff_id);
+                    frm.ShowDialog();
+                    
 
                     if (temp == "Live")
                         sql = "INSERT INTO dbo.door_stoppages (action,action_time,department,door_id,staff_id) VALUES ('Paused',GETDATE(),'" + section + "'," + door_id + "," + staff_id + ")";
