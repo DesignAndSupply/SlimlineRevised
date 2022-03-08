@@ -134,6 +134,40 @@ namespace SlimlineRevisedUI.Forms
 
         private void btnComplete_Click(object sender, EventArgs e)
         {
+            //check if there is a start date for this door AND check if its been paused
+            string sql = "";
+            using (SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString))
+            {
+                conn.Open();
+                sql = "select [Started op],[action] from c_view_slimline_allocation a left join  " +
+                    "(Select a.id, b.maxID, action, a.door_id, a.department from dbo.door_stoppages a inner join " +
+                    "( select max(id) as maxID, door_id, department from dbo.door_stoppages  group by door_id, department) as b on a.id = b.maxID ) " +
+                    "b on a.id = b.door_id and a.Section = b.department where a.id = " + _doorID;
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    string startDate = "";
+                    string action = "";
+                    startDate = dt.Rows[0][0].ToString();
+                    action = dt.Rows[0][1].ToString();
+
+                    if (startDate == "")
+                    {
+                        MessageBox.Show("You cannot update this job until it has been marked as started!", "Update cancelled!", MessageBoxButtons.OK);
+                        return;
+                    }
+                    if (action == "Paused")
+                    {
+                        MessageBox.Show("You cannot update this job until it has been unpaused!", "Update cancelled!", MessageBoxButtons.OK);
+                        return;
+                    }
+                }
+                    conn.Close();
+            }
+
+
             UpdateDepartments ud = new UpdateDepartments(_doorID, _dept);
 
             double n;
