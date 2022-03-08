@@ -142,7 +142,7 @@ namespace SlimlineRevisedUI.Forms
                 sql = "select [Started op],[action] from c_view_slimline_allocation a left join  " +
                     "(Select a.id, b.maxID, action, a.door_id, a.department from dbo.door_stoppages a inner join " +
                     "( select max(id) as maxID, door_id, department from dbo.door_stoppages  group by door_id, department) as b on a.id = b.maxID ) " +
-                    "b on a.id = b.door_id and a.Section = b.department where a.id = " + _doorID;
+                    "b on a.id = b.door_id and a.Section = b.department where a.id = "+ _doorID;
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -150,6 +150,11 @@ namespace SlimlineRevisedUI.Forms
                     da.Fill(dt);
                     string startDate = "";
                     string action = "";
+                  if (dt.Rows.Count == 0)
+                    {
+                        MessageBox.Show("Please make sure this job is allocated before attempting to update this job!", "No Allocation", MessageBoxButtons.OK);
+                        return;
+                    }
                     startDate = dt.Rows[0][0].ToString();
                     action = dt.Rows[0][1].ToString();
 
