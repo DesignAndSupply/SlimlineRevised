@@ -136,42 +136,45 @@ namespace SlimlineRevisedUI.Forms
         {
             //check if there is a start date for this door AND check if its been paused
             string sql = "";
-            using (SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString))
+            if (_dept != "SL_Stores")
             {
-                conn.Open();
-                sql = "select [Started op],[action] from c_view_slimline_allocation a left join  " +
-                    "(Select a.id, b.maxID, action, a.door_id, a.department from dbo.door_stoppages a inner join " +
-                    "( select max(id) as maxID, door_id, department from dbo.door_stoppages  group by door_id, department) as b on a.id = b.maxID ) " +
-                    "b on a.id = b.door_id and a.Section = b.department where a.id = "+ _doorID;
-                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                using (SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString))
                 {
-                    SqlDataAdapter da = new SqlDataAdapter(cmd);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-                    string startDate = "";
-                    string action = "";
-                  if (dt.Rows.Count == 0)
+                    conn.Open();
+                    sql = "select [Started op],[action] from c_view_slimline_allocation a left join  " +
+                        "(Select a.id, b.maxID, action, a.door_id, a.department from dbo.door_stoppages a inner join " +
+                        "( select max(id) as maxID, door_id, department from dbo.door_stoppages  group by door_id, department) as b on a.id = b.maxID ) " +
+                        "b on a.id = b.door_id and a.Section = b.department where a.id = " + _doorID;
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
-                        MessageBox.Show("Please make sure this job is allocated before attempting to update this job!", "No Allocation", MessageBoxButtons.OK);
-                        return;
-                    }
-                    startDate = dt.Rows[0][0].ToString();
-                    action = dt.Rows[0][1].ToString();
+                        SqlDataAdapter da = new SqlDataAdapter(cmd);
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        string startDate = "";
+                        string action = "";
+                        if (dt.Rows.Count == 0)
+                        {
+                            MessageBox.Show("Please make sure this job is allocated before attempting to update this job!", "No Allocation", MessageBoxButtons.OK);
+                            return;
+                        }
+                        startDate = dt.Rows[0][0].ToString();
+                        action = dt.Rows[0][1].ToString();
 
-                    if (startDate == "")
-                    {
-                        MessageBox.Show("You cannot update this job until it has been marked as started!", "Update cancelled!", MessageBoxButtons.OK);
-                        return;
+                        if (startDate == "")
+                        {
+                            MessageBox.Show("You cannot update this job until it has been marked as started!", "Update cancelled!", MessageBoxButtons.OK);
+                            return;
+                        }
+                        if (action == "Paused")
+                        {
+                            MessageBox.Show("You cannot update this job until it has been unpaused!", "Update cancelled!", MessageBoxButtons.OK);
+                            return;
+                        }
+
                     }
-                    if (action == "Paused")
-                    {
-                        MessageBox.Show("You cannot update this job until it has been unpaused!", "Update cancelled!", MessageBoxButtons.OK);
-                        return;
-                    }
-                }
                     conn.Close();
+                }
             }
-
 
             UpdateDepartments ud = new UpdateDepartments(_doorID, _dept);
 
@@ -267,92 +270,89 @@ namespace SlimlineRevisedUI.Forms
 
                         }
                         else
-                            {
-                                MessageBox.Show("The value you have entered is less or equal to the current progress on the job (" + ud._SectionCompleteAmount * 100 + "%)", "Value lower than current progress", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-                        }
-                        else
                         {
-                            MessageBox.Show("Value must be less than or equal to 100!", "Value too high!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("The value you have entered is less or equal to the current progress on the job (" + ud._SectionCompleteAmount * 100 + "%)", "Value lower than current progress", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
-
-
-
                     }
                     else
                     {
-                        MessageBox.Show("Only whole number percentages 1-100 can be used. No decimals allowed!", "Whole numbers", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Value must be less than or equal to 100!", "Value too high!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
+
+
+
                 }
                 else
                 {
-                    MessageBox.Show("Please select a staff member before attempting to continue", "Select staff member", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
+                    MessageBox.Show("Only whole number percentages 1-100 can be used. No decimals allowed!", "Whole numbers", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-
-
             }
-
-            private void fillByToolStripButton_Click(object sender, EventArgs e)
+            else
             {
-                try
-                {
-                    this.c_view_slimline_staffTableAdapter.FillBy(this.user_infoDataSet.c_view_slimline_staff);
-                }
-                catch (System.Exception ex)
-                {
-                    System.Windows.Forms.MessageBox.Show(ex.Message);
-                }
-
-            }
-
-            private void btnSaveNote_Click(object sender, EventArgs e)
-            {
-                SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString);
-                conn.Open();
-
-                SqlCommand cmd = new SqlCommand();
-                cmd.Connection = conn;
-
-                try
-                {
-                    switch (_dept)
-                    {
-                        case "SL_Stores":
-                            cmd.CommandText = "UPDATE dbo.door SET sl_stores_note = @note where id = @id ";
-                            break;
-                        case "Cutting":
-                            cmd.CommandText = "UPDATE dbo.door SET cutting_note = @note where id = @id ";
-                            break;
-                        case "Prepping":
-                            cmd.CommandText = "UPDATE dbo.door SET prepping_note = @note where id = @id ";
-                            break;
-                        case "Assembly":
-                            cmd.CommandText = "UPDATE dbo.door SET assembly_note = @note where id = @id ";
-                            break;
-                        case "SL_Buff":
-                            cmd.CommandText = "UPDATE dbo.door SET sl_buff_note = @note where id = @id ";
-                            break;
-                        case "SL_Pack":
-                            cmd.CommandText = "UPDATE dbo.door SET packing_note = @note where id = @id ";
-                            break;
-                        default:
-
-                            break;
-                    }
-
-
-                    cmd.Parameters.AddWithValue("@note", txtNote.Text);
-                    cmd.Parameters.AddWithValue("@id", _doorID);
-                    cmd.ExecuteNonQuery();
-                    conn.Close();
-                    MessageBox.Show("Note saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch
-                {
-                    MessageBox.Show("Error occured saving the note. If this error persists please contact IT", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-
+                MessageBox.Show("Please select a staff member before attempting to continue", "Select staff member", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void fillByToolStripButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.c_view_slimline_staffTableAdapter.FillBy(this.user_infoDataSet.c_view_slimline_staff);
+            }
+            catch (System.Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+            }
+
+        }
+
+        private void btnSaveNote_Click(object sender, EventArgs e)
+        {
+            SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString);
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+
+            try
+            {
+                switch (_dept)
+                {
+                    case "SL_Stores":
+                        cmd.CommandText = "UPDATE dbo.door SET sl_stores_note = @note where id = @id ";
+                        break;
+                    case "Cutting":
+                        cmd.CommandText = "UPDATE dbo.door SET cutting_note = @note where id = @id ";
+                        break;
+                    case "Prepping":
+                        cmd.CommandText = "UPDATE dbo.door SET prepping_note = @note where id = @id ";
+                        break;
+                    case "Assembly":
+                        cmd.CommandText = "UPDATE dbo.door SET assembly_note = @note where id = @id ";
+                        break;
+                    case "SL_Buff":
+                        cmd.CommandText = "UPDATE dbo.door SET sl_buff_note = @note where id = @id ";
+                        break;
+                    case "SL_Pack":
+                        cmd.CommandText = "UPDATE dbo.door SET packing_note = @note where id = @id ";
+                        break;
+                    default:
+
+                        break;
+                }
+
+
+                cmd.Parameters.AddWithValue("@note", txtNote.Text);
+                cmd.Parameters.AddWithValue("@id", _doorID);
+                cmd.ExecuteNonQuery();
+                conn.Close();
+                MessageBox.Show("Note saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch
+            {
+                MessageBox.Show("Error occured saving the note. If this error persists please contact IT", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
     }
+}
