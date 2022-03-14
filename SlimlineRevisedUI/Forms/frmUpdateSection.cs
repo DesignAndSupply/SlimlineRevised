@@ -141,7 +141,7 @@ namespace SlimlineRevisedUI.Forms
                 using (SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString))
                 {
                     conn.Open();
-                    sql = "select [Started op],[action] from c_view_slimline_allocation a left join  " +
+                    sql = "select [Started op],[action] from c_view_slimline_allocation a right join  " +
                         "(Select a.id, b.maxID, action, a.door_id, a.department from dbo.door_stoppages a inner join " +
                         "( select max(id) as maxID, door_id, department from dbo.door_stoppages  group by door_id, department) as b on a.id = b.maxID ) " +
                         "b on a.id = b.door_id and a.Section = b.department where a.id = " + _doorID;
