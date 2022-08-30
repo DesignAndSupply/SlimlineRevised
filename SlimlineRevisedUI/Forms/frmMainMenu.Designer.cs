@@ -171,6 +171,7 @@
             this.allocateWorkToolStripMenuItem.Name = "allocateWorkToolStripMenuItem";
             this.allocateWorkToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
             this.allocateWorkToolStripMenuItem.Text = "Allocate Work";
+            this.allocateWorkToolStripMenuItem.Visible = false;
             this.allocateWorkToolStripMenuItem.Click += new System.EventHandler(this.AllocateWorkToolStripMenuItem_Click);
             // 
             // packingListToolStripMenuItem
