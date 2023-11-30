@@ -28,7 +28,7 @@ namespace SlimlineRevisedUI.Forms
 
             if (txtDoorID.Text.Length > 0)
             {
-                string temp = @"\\designsvr1\apps\Design and Supply MS ACCESS\Frontend\ShopFloorUpdate\SlimlineDelivery\Packing Lists\" + txtDoorID.Text + ".pdf";
+                string temp = @"\\WIN-M9DQSBAPFO7\apps\Design and Supply MS ACCESS\Frontend\ShopFloorUpdate\SlimlineDelivery\Packing Lists\" + txtDoorID.Text + ".pdf";
 
                 Process process = new Process();
                 ProcessStartInfo startInfo = new ProcessStartInfo();

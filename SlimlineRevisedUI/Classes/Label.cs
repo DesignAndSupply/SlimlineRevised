@@ -70,7 +70,7 @@ namespace SlimlineRevisedUI.Classes
         public void printSmallStockLabel()
         {
             ComponentInfo.SetLicense("FREE-LIMITED-KEY");
-            DocumentModel document = DocumentModel.Load(@"\\designsvr1\apps\Design and Supply CSharp\ShopFloorApps\SlimlineRevised\BarcodeLabel2.docx");
+            DocumentModel document = DocumentModel.Load(@"\\WIN-M9DQSBAPFO7\apps\Design and Supply CSharp\ShopFloorApps\SlimlineRevised\BarcodeLabel2.docx");
 
             
 
@@ -87,7 +87,7 @@ namespace SlimlineRevisedUI.Classes
         public void printSmallStockLabelDoor(string doorID)
         {
             ComponentInfo.SetLicense("FREE-LIMITED-KEY");
-            DocumentModel document = DocumentModel.Load(@"\\designsvr1\apps\Design and Supply CSharp\ShopFloorApps\SlimlineRevised\BarcodeLabel2Door.docx");
+            DocumentModel document = DocumentModel.Load(@"\\WIN-M9DQSBAPFO7\apps\Design and Supply CSharp\ShopFloorApps\SlimlineRevised\BarcodeLabel2Door.docx");
 
 
 
@@ -103,7 +103,7 @@ namespace SlimlineRevisedUI.Classes
         public void printSmallStockLabelPO(string doorID)
         {
             ComponentInfo.SetLicense("FREE-LIMITED-KEY");
-            DocumentModel document = DocumentModel.Load(@"\\designsvr1\apps\Design and Supply CSharp\ShopFloorApps\SlimlineRevised\BarcodeLabel2Door.docx");
+            DocumentModel document = DocumentModel.Load(@"\\WIN-M9DQSBAPFO7\apps\Design and Supply CSharp\ShopFloorApps\SlimlineRevised\BarcodeLabel2Door.docx");
 
 
 
@@ -123,7 +123,7 @@ namespace SlimlineRevisedUI.Classes
             Door d = new Door(Convert.ToDouble(doorID));
 
             ComponentInfo.SetLicense("FREE-LIMITED-KEY");
-            DocumentModel document = DocumentModel.Load(@"\\designsvr1\apps\Design and Supply CSharp\ShopFloorApps\SlimlineRevised\PackingLabelSmall.docx");
+            DocumentModel document = DocumentModel.Load(@"\\WIN-M9DQSBAPFO7\apps\Design and Supply CSharp\ShopFloorApps\SlimlineRevised\PackingLabelSmall.docx");
 
             document.Bookmarks["CustomerName"].GetContent(false).LoadText(d._customerName);
             document.Bookmarks["DoorNumber"].GetContent(false).LoadText(d._doorID.ToString());
