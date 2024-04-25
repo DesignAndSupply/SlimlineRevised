@@ -354,5 +354,42 @@ namespace SlimlineRevisedUI.Forms
             }
 
         }
+
+        private void cmbStaffID_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //if this is sl_buffing we check if there is [slimline proving / testing of door] (id:88)
+            if (cmbStaffID.SelectedIndex == -1)
+                return;
+
+
+            if (_dept == "SL_Buff")
+            {
+                string sql = "SELECT addition_id FROM dbo.door_addition where door_id = " + _doorID + " AND addition_id = 88";
+
+                using (SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString))
+                {
+                    conn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        var getAddition = cmd.ExecuteScalar();
+                        if (getAddition != null)
+                        {
+                            //prompt the user for proving or not
+                            frmProvingSelection frm = new frmProvingSelection();
+                            frm.ShowDialog();
+
+                            if (SqlStatements.proving == -1)
+                            {
+                                MessageBox.Show("probing");
+                            }
+                        }
+                    }
+
+                    conn.Close();
+                }
+            }
+
+        }
     }
 }

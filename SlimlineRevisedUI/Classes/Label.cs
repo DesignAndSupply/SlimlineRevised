@@ -70,7 +70,7 @@ namespace SlimlineRevisedUI.Classes
         public void printSmallStockLabel()
         {
             ComponentInfo.SetLicense("FREE-LIMITED-KEY");
-            DocumentModel document = DocumentModel.Load(@"\\WIN-M9DQSBAPFO7\apps\Design and Supply CSharp\ShopFloorApps\SlimlineRevised\BarcodeLabel2.docx");
+            DocumentModel document = DocumentModel.Load(@"\\designsvr1\apps\Design and Supply CSharp\ShopFloorApps\SlimlineRevised\BarcodeLabel2.docx");
 
             
 
@@ -87,7 +87,7 @@ namespace SlimlineRevisedUI.Classes
         public void printSmallStockLabelDoor(string doorID)
         {
             ComponentInfo.SetLicense("FREE-LIMITED-KEY");
-            DocumentModel document = DocumentModel.Load(@"\\WIN-M9DQSBAPFO7\apps\Design and Supply CSharp\ShopFloorApps\SlimlineRevised\BarcodeLabel2Door.docx");
+            DocumentModel document = DocumentModel.Load(@"\\designsvr1\apps\Design and Supply CSharp\ShopFloorApps\SlimlineRevised\BarcodeLabel2Door.docx");
 
 
 

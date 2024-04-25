@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace SlimlineRevisedUI.Classes
 {
+    
     class SqlStatements
     {
+        public static int proving;
 
         public const string ConnectionString = "user id=sa;" +
                                "password=Dodid1;Network Address=192.168.0.150\\sqlexpress;" +

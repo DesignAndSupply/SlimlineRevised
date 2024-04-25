@@ -104,6 +104,7 @@
             this.cmbStaffID.Size = new System.Drawing.Size(166, 21);
             this.cmbStaffID.TabIndex = 4;
             this.cmbStaffID.ValueMember = "id";
+            this.cmbStaffID.SelectedIndexChanged += new System.EventHandler(this.cmbStaffID_SelectedIndexChanged);
             // 
             // cviewslimlinestaffBindingSource
             // 
