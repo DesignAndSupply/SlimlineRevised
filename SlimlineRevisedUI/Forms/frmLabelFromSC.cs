@@ -33,7 +33,8 @@ namespace SlimlineRevisedUI
             SqlConnection con = new SqlConnection(SqlStatements.ConnectionString);
 
 
-            //UPDATES THE PAINT TO DOOR DATAGRID
+            //UPDATES THE
+            //TO DOOR DATAGRID
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;
             cmd.CommandText = "Select stock_code, description, amount_in_stock from dbo.stock where slimline_stock_yn = -1 and description like @desc order by stock_code";

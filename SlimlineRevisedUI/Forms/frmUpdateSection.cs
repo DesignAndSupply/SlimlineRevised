@@ -266,8 +266,6 @@ namespace SlimlineRevisedUI.Forms
                             {
                                 MessageBox.Show("Ann error has occured. Please contact IT.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
-
-
                         }
                         else
                         {
@@ -278,8 +276,6 @@ namespace SlimlineRevisedUI.Forms
                     {
                         MessageBox.Show("Value must be less than or equal to 100!", "Value too high!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-
-
 
                 }
                 else

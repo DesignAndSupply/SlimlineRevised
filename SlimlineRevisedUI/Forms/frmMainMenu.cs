@@ -220,5 +220,11 @@ namespace SlimlineRevisedUI.Forms
             frmPackingList frm = new frmPackingList();
             frm.ShowDialog();
         }
+
+        private void btnRepaint_Click(object sender, EventArgs e)
+        {
+            frmRepaint frm = new frmRepaint(Convert.ToInt32(txtDoorIDSearch.Text));
+            frm.ShowDialog();
+        }
     }
 }

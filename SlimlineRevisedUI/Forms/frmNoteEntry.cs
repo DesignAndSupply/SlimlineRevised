@@ -21,7 +21,12 @@ namespace SlimlineRevisedUI.Forms
         {
             InitializeComponent();
             if (department == "SL_Pack")
+            {
                 department = "packing";
+                //make repaints checkbox visible
+                chkRepaint.Visible = true;
+            }
+
             _department = department;
             _id = id;
             //cmd.CommandText = "UPDATE dbo.door SET sl_stores_note = @note where id = @id ";
@@ -63,14 +68,24 @@ namespace SlimlineRevisedUI.Forms
                 string sql = "UPDATE dbo.door SET " + _department + "_note = '" + txtNote.Text + "' where id = " + _id;
                 using (SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString))
                 {
+                    conn.Open();
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
-                        conn.Open();
+                        
                         cmd.ExecuteNonQuery();
                         MessageBox.Show("Note Updated!", "Complete", MessageBoxButtons.OK);
-                        conn.Close();
-                        this.Close();
+                        
+
+                        //if this is a remake then log it then open a form to log it the same way traditional does
+                        if (chkRepaint.Checked == true)
+                        {
+                            frmRepaint frm = new frmRepaint(_id);
+                            frm.ShowDialog();
+                        }
+                        
                     }
+                    conn.Close();
+                    this.Close();
                 }
             }
             else

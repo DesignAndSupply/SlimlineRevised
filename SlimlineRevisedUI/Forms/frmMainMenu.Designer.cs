@@ -43,6 +43,7 @@
             this.bookOutConsumableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.allocateWorkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.packingListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnRepaint = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSections)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -181,12 +182,24 @@
             this.packingListToolStripMenuItem.Text = "Packing List";
             this.packingListToolStripMenuItem.Click += new System.EventHandler(this.packingListToolStripMenuItem_Click);
             // 
+            // btnRepaint
+            // 
+            this.btnRepaint.Location = new System.Drawing.Point(632, 58);
+            this.btnRepaint.Name = "btnRepaint";
+            this.btnRepaint.Size = new System.Drawing.Size(75, 23);
+            this.btnRepaint.TabIndex = 12;
+            this.btnRepaint.Text = "Repaint";
+            this.btnRepaint.UseVisualStyleBackColor = true;
+            this.btnRepaint.Visible = false;
+            this.btnRepaint.Click += new System.EventHandler(this.btnRepaint_Click);
+            // 
             // frmMainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(816, 589);
+            this.Controls.Add(this.btnRepaint);
             this.Controls.Add(this.btnLooseItems);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnLoadDoor);
@@ -224,5 +237,6 @@
         private System.Windows.Forms.ToolStripMenuItem bookOutConsumableToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem allocateWorkToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem packingListToolStripMenuItem;
+        private System.Windows.Forms.Button btnRepaint;
     }
 }

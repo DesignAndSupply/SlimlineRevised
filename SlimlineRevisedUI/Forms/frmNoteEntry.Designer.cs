@@ -33,6 +33,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtNote = new System.Windows.Forms.RichTextBox();
+            this.chkRepaint = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // txtNewNote
@@ -81,12 +82,25 @@
             this.txtNote.TabIndex = 3;
             this.txtNote.Text = "";
             // 
+            // chkRepaint
+            // 
+            this.chkRepaint.AutoSize = true;
+            this.chkRepaint.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
+            this.chkRepaint.Location = new System.Drawing.Point(39, 372);
+            this.chkRepaint.Name = "chkRepaint";
+            this.chkRepaint.Size = new System.Drawing.Size(187, 24);
+            this.chkRepaint.TabIndex = 5;
+            this.chkRepaint.Text = "IS THIS A REPAINT?";
+            this.chkRepaint.UseVisualStyleBackColor = true;
+            this.chkRepaint.Visible = false;
+            // 
             // frmNoteEntry
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(546, 404);
             this.ControlBox = false;
+            this.Controls.Add(this.chkRepaint);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtNote);
             this.Controls.Add(this.label1);
@@ -96,6 +110,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Note";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -106,5 +121,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.RichTextBox txtNote;
+        private System.Windows.Forms.CheckBox chkRepaint;
     }
 }
