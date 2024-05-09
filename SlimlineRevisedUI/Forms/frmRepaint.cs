@@ -34,6 +34,13 @@ namespace SlimlineRevisedUI.Forms
 
         private void btnLogRepaint_Click(object sender, EventArgs e)
         {
+
+            if (txtReason.Text.Length < 5)
+            {
+                MessageBox.Show("Please enter a reason for repaint.","Missing Reason",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                return;
+            }
+
             string sql = "";
             int staff_id = 260;
             //get the staff allocation 
@@ -42,13 +49,19 @@ namespace SlimlineRevisedUI.Forms
             using (SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString))
             {
                 conn.Open();
-
-                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                if (department == "Office")
                 {
-                    var getStaff = cmd.ExecuteScalar();
-                    if (getStaff != null)
-                        staff_id = Convert.ToInt32(cmd.ExecuteScalar().ToString());
+                    //apparently it can only be sarah
+                    staff_id = 24;
+                }
+                {
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        var getStaff = cmd.ExecuteScalar();
+                        if (getStaff != null)
+                            staff_id = Convert.ToInt32(cmd.ExecuteScalar().ToString());
 
+                    }
                 }
 
                 //paint id
@@ -114,6 +127,12 @@ namespace SlimlineRevisedUI.Forms
         {
             department = "Packing";
             department_id = 6;
+        }
+
+        private void rdoOffice_CheckedChanged(object sender, EventArgs e)
+        {
+            department = "Office";
+            department_id = 8;
         }
     }
 }

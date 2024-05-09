@@ -40,11 +40,13 @@
             this.btnLogRepaint = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.rdoOffice = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.rdoOffice);
             this.groupBox1.Controls.Add(this.rdoPacking);
             this.groupBox1.Controls.Add(this.rdoPainting);
             this.groupBox1.Controls.Add(this.rdoBuffing);
@@ -54,7 +56,7 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
             this.groupBox1.Location = new System.Drawing.Point(32, 84);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 275);
+            this.groupBox1.Size = new System.Drawing.Size(200, 301);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Department at Fault";
@@ -188,6 +190,19 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "Slimline Repaints";
             // 
+            // rdoOffice
+            // 
+            this.rdoOffice.AutoSize = true;
+            this.rdoOffice.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
+            this.rdoOffice.Location = new System.Drawing.Point(22, 266);
+            this.rdoOffice.Name = "rdoOffice";
+            this.rdoOffice.Size = new System.Drawing.Size(72, 24);
+            this.rdoOffice.TabIndex = 7;
+            this.rdoOffice.TabStop = true;
+            this.rdoOffice.Text = "Office";
+            this.rdoOffice.UseVisualStyleBackColor = true;
+            this.rdoOffice.CheckedChanged += new System.EventHandler(this.rdoOffice_CheckedChanged);
+            // 
             // frmRepaint
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -227,5 +242,6 @@
         private System.Windows.Forms.Button btnLogRepaint;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.RadioButton rdoOffice;
     }
 }
