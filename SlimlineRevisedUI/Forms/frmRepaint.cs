@@ -6,9 +6,11 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SlimlineRevisedUI.Classes;
+using repaintWord = Microsoft.Office.Interop.Word;
 
 namespace SlimlineRevisedUI.Forms
 {
@@ -37,7 +39,7 @@ namespace SlimlineRevisedUI.Forms
 
             if (txtReason.Text.Length < 5)
             {
-                MessageBox.Show("Please enter a reason for repaint.","Missing Reason",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show("Please enter a reason for repaint.", "Missing Reason", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -75,22 +77,83 @@ namespace SlimlineRevisedUI.Forms
                         paint_id = Convert.ToInt32(cmd.ExecuteScalar().ToString());
                 }
 
-                MessageBox.Show(paint_id.ToString());
+                //MessageBox.Show(paint_id.ToString());
 
                 //log the repaint
                 sql = "INSERT INTO dbo.repaints (date_logged,paint_id,amended,painter_name,department,door_id,reason_for_repaint,deduction_successful," +
                     "repaint_complete,repaint_from_dept) " +
                     "VALUES (GETDATE()," + paint_id + ",0," + staff_id + "," + department_id + "," + door_id.ToString() + ",'" + txtReason.Text + "',0,0,'Packing')";
 
-                using (SqlCommand cmd = new SqlCommand(sql,conn))
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
                     cmd.ExecuteNonQuery();
                 }
+
+                //print out the repaint sheet
+                sql = "select rtrim(s.NAME),dt.door_type_description FROM dbo.door d " +
+                    "left join dbo.door_type dt on d.door_type_id = dt.id " +
+                    "left join dbo.SALES_LEDGER s on d.customer_acc_ref = s.ACCOUNT_REF " +
+                    "where d.id = " + door_id.ToString();
+                DataTable dt = new DataTable();
+
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                }
+
+                
+
+                Microsoft.Office.Interop.Word.Application wordApp = new Microsoft.Office.Interop.Word.Application();
+                repaintWord.Document wordDoc = wordApp.Documents.Open(@"\\designsvr1\apps\Design and Supply CSharp\REPAINT_REQUEST_FORM.docx");
+
+                repaintWord.Bookmark bmDoorNumber = wordDoc.Bookmarks["Door_Number"];
+                repaintWord.Range range = bmDoorNumber.Range;
+                range.Text = door_id.ToString();
+
+                repaintWord.Bookmark bmCustomer = wordDoc.Bookmarks["Customer"];
+                range = bmCustomer.Range;
+                range.Text = dt.Rows[0][0].ToString();
+
+                repaintWord.Bookmark bmDoorType = wordDoc.Bookmarks["Door_Type"];
+                range = bmDoorType.Range;
+                range.Text = dt.Rows[0][1].ToString();
+
+
+                wordApp.Options.PrintBackground = false; // this forces the app to print before closing
+
+                wordDoc.PrintOut();
+
+                //release word objects
+                wordDoc.Close(false);
+                wordApp.Quit(false);
+
+                releaseObject(wordDoc);
+                releaseObject(wordApp);
+
 
                 conn.Close();
             }
             this.Close();
 
+        }
+
+        private static void releaseObject(object obj)
+        {
+            try
+            {
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
+                obj = null;
+            }
+            catch (Exception ex)
+            {
+                obj = null;
+                Console.WriteLine("Error releasing object: " + ex.Message);
+            }
+            finally
+            {
+                GC.Collect();
+            }
         }
 
         private void rdoCutting_CheckedChanged(object sender, EventArgs e)

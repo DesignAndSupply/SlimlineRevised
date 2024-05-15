@@ -190,7 +190,6 @@
             this.btnRepaint.TabIndex = 12;
             this.btnRepaint.Text = "Repaint";
             this.btnRepaint.UseVisualStyleBackColor = true;
-            this.btnRepaint.Visible = false;
             this.btnRepaint.Click += new System.EventHandler(this.btnRepaint_Click);
             // 
             // frmMainMenu
