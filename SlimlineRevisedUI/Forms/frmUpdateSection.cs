@@ -377,7 +377,7 @@ namespace SlimlineRevisedUI.Forms
 
                             if (SqlStatements.proving == -1)
                             {
-                                MessageBox.Show("probing");
+                                MessageBox.Show("proving");
                             }
                         }
                     }
