@@ -72,10 +72,10 @@ namespace SlimlineRevisedUI.Forms
                     conn.Open();
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
-                        
+
                         cmd.ExecuteNonQuery();
                         MessageBox.Show("Note Updated!", "Complete", MessageBoxButtons.OK);
-                        
+
 
                         ////if this is a remake then log it then open a form to log it the same way traditional does
                         //if (chkRepaint.Checked == true)
@@ -85,50 +85,52 @@ namespace SlimlineRevisedUI.Forms
                         //}
                     }
 
-                    //print out the repaint sheet
-                    sql = "select rtrim(s.NAME),dt.door_type_description FROM dbo.door d " +
-                        "left join dbo.door_type dt on d.door_type_id = dt.id " +
-                        "left join dbo.SALES_LEDGER s on d.customer_acc_ref = s.ACCOUNT_REF " +
-                        "where d.id = " + _id.ToString();
-                    DataTable dt = new DataTable();
-
-                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    if (chkRepaint.Checked == true)
                     {
-                        SqlDataAdapter da = new SqlDataAdapter(cmd);
-                        da.Fill(dt);
+                        //print out the repaint sheet
+                        sql = "select rtrim(s.NAME),dt.door_type_description FROM dbo.door d " +
+                            "left join dbo.door_type dt on d.door_type_id = dt.id " +
+                            "left join dbo.SALES_LEDGER s on d.customer_acc_ref = s.ACCOUNT_REF " +
+                            "where d.id = " + _id.ToString();
+                        DataTable dt = new DataTable();
+
+                        using (SqlCommand cmd = new SqlCommand(sql, conn))
+                        {
+                            SqlDataAdapter da = new SqlDataAdapter(cmd);
+                            da.Fill(dt);
+                        }
+
+
+
+                        Microsoft.Office.Interop.Word.Application wordApp = new Microsoft.Office.Interop.Word.Application();
+                        repaintWord.Document wordDoc = wordApp.Documents.Open(@"\\designsvr1\apps\Design and Supply CSharp\REPAINT_REQUEST_FORM.docx");
+
+                        repaintWord.Bookmark bmDoorNumber = wordDoc.Bookmarks["Door_Number"];
+                        repaintWord.Range range = bmDoorNumber.Range;
+                        range.Text = _id.ToString();
+
+                        repaintWord.Bookmark bmCustomer = wordDoc.Bookmarks["Customer"];
+                        range = bmCustomer.Range;
+                        range.Text = dt.Rows[0][0].ToString();
+
+                        repaintWord.Bookmark bmDoorType = wordDoc.Bookmarks["Door_Type"];
+                        range = bmDoorType.Range;
+                        range.Text = dt.Rows[0][1].ToString();
+
+
+                        wordApp.Options.PrintBackground = false; // this forces the app to print before closing
+
+                        wordDoc.PrintOut();
+
+                        //release word objects
+                        wordDoc.Close(false);
+                        wordApp.Quit(false);
+
+                        releaseObject(wordDoc);
+                        releaseObject(wordApp);
+
                     }
 
-
-
-                    Microsoft.Office.Interop.Word.Application wordApp = new Microsoft.Office.Interop.Word.Application();
-                    repaintWord.Document wordDoc = wordApp.Documents.Open(@"\\designsvr1\apps\Design and Supply CSharp\REPAINT_REQUEST_FORM.docx");
-
-                    repaintWord.Bookmark bmDoorNumber = wordDoc.Bookmarks["Door_Number"];
-                    repaintWord.Range range = bmDoorNumber.Range;
-                    range.Text = _id.ToString();
-
-                    repaintWord.Bookmark bmCustomer = wordDoc.Bookmarks["Customer"];
-                    range = bmCustomer.Range;
-                    range.Text = dt.Rows[0][0].ToString();
-
-                    repaintWord.Bookmark bmDoorType = wordDoc.Bookmarks["Door_Type"];
-                    range = bmDoorType.Range;
-                    range.Text = dt.Rows[0][1].ToString();
-
-
-                    wordApp.Options.PrintBackground = false; // this forces the app to print before closing
-
-                    wordDoc.PrintOut();
-
-                    //release word objects
-                    wordDoc.Close(false);
-                    wordApp.Quit(false);
-
-                    releaseObject(wordDoc);
-                    releaseObject(wordApp);
-
-
- 
 
                     conn.Close();
                     this.Close();

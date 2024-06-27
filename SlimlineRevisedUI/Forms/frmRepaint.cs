@@ -44,7 +44,7 @@ namespace SlimlineRevisedUI.Forms
             }
 
             string sql = "";
-            int staff_id = 260;
+            int staff_id = 24;
             //get the staff allocation 
             sql = "select staff_id FROM dbo.door_allocation da where department = '" + department + "' and door_id = " + door_id.ToString();
 
