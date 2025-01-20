@@ -23,9 +23,21 @@ namespace SlimlineRevisedUI.Classes
                 SqlConnection sqlconn = new SqlConnection(SqlStatements.ConnectionString);
                 sqlconn.Open();
 
-                double returnValue=0;
+                double returnValue = 0;
 
+                double proving_time = 0;
 
+                string sqlProving = "select addition_time_SL_buff * addition_quantity " +
+                                    "FROM dbo.door_addition where addition_id = 88 and door_id = " + _doorId;
+                //remove the time for addition 88 here
+                using (SqlCommand cmdProving = new SqlCommand(sqlProving, sqlconn))
+                {
+                    var fuga = cmdProving.ExecuteScalar();
+                    if (fuga != null)
+                    {
+                        proving_time = Convert.ToDouble(fuga);
+                    }
+                }
 
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = sqlconn;
@@ -41,7 +53,7 @@ namespace SlimlineRevisedUI.Classes
                         switch (_sectionName)
                         {
                             case "SL_Stores":
-                                returnValue= Convert.ToDouble(rdr["time_sl_stores"]);
+                                returnValue = Convert.ToDouble(rdr["time_sl_stores"]);
                                 break;
                             case "Cutting":
                                 returnValue = Convert.ToDouble(rdr["time_cutting"]) * Convert.ToInt32(rdr["quantity_same"]);
@@ -53,7 +65,15 @@ namespace SlimlineRevisedUI.Classes
                                 returnValue = Convert.ToDouble(rdr["time_assembly"]) * Convert.ToInt32(rdr["quantity_same"]);
                                 break;
                             case "SL_Buff":
-                                returnValue = Convert.ToDouble(rdr["time_sl_buff"]) * Convert.ToInt32(rdr["quantity_same"]);
+
+                                if (SqlStatements.proving == 0)
+                                {
+                                    returnValue = (Convert.ToDouble(rdr["time_sl_buff"]) * Convert.ToInt32(rdr["quantity_same"])) - proving_time;
+                                }
+                                else
+                                {
+                                    returnValue = proving_time;
+                                }
                                 break;
                             case "SL_Pack":
                                 returnValue = Convert.ToDouble(rdr["time_pack"]) * Convert.ToInt32(rdr["quantity_same"]);
@@ -88,7 +108,18 @@ namespace SlimlineRevisedUI.Classes
                 sqlconn.Open();
 
                 double returnValue = 0;
-
+                double proving = 0;
+                string sqlProving = "select addition_time_SL_buff * addition_quantity " +
+                             "FROM dbo.door_addition where addition_id = 88 and door_id = " + _doorId;
+                //remove the time for addition 88 here
+                using (SqlCommand cmdProving = new SqlCommand(sqlProving, sqlconn))
+                {
+                    var fuga = cmdProving.ExecuteScalar();
+                    if (fuga != null)
+                    {
+                        proving = Convert.ToDouble(fuga);
+                    }
+                }
 
 
                 SqlCommand cmd = new SqlCommand();
@@ -117,7 +148,14 @@ namespace SlimlineRevisedUI.Classes
                                 returnValue = Convert.ToDouble(rdr["time_assembly"]);
                                 break;
                             case "SL_Buff":
-                                returnValue = Convert.ToDouble(rdr["time_sl_buff"]);
+                                if (SqlStatements.proving == -1)
+                                {
+                                    returnValue = proving;
+                                }
+                                else
+                                {
+                                    returnValue = Convert.ToDouble(rdr["time_sl_buff"]) - proving;
+                                }
                                 break;
                             case "SL_Pack":
                                 returnValue = Convert.ToDouble(rdr["time_pack"]);
@@ -152,27 +190,43 @@ namespace SlimlineRevisedUI.Classes
 
                 double returnValue = 0;
 
-
-
-                SqlCommand cmd = new SqlCommand();
-                cmd.Connection = sqlconn;
-                cmd.CommandText = "SELECT * FROM c_view_slimline_summed_progress WHERE door_id=@doorid and op=@op";
-                cmd.Parameters.AddWithValue("@doorid", _doorId);
-                cmd.Parameters.AddWithValue("@op", _sectionName);
-                SqlDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.HasRows)
+                if (SqlStatements.proving == -1)
                 {
-
-                    while (rdr.Read())
+                    //check if slimline proving has been clicked before
+                    string sql = "SELECT id FROM dbo.door_part_completion_log WHERE op = 'SL Proving' and door_id = " + _doorId;
+                    using (SqlCommand cmd = new SqlCommand(sql, sqlconn))
                     {
-                        returnValue = Convert.ToDouble(rdr["SumPartPercent"]);
-                    }
+                        var fuga = cmd.ExecuteScalar();
 
+                        if (fuga == null)
+                            returnValue = 0;
+                        else
+                            returnValue = Convert.ToDouble(fuga);
+                    }
                 }
                 else
                 {
-                    returnValue= 0;
+
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.Connection = sqlconn;
+                    cmd.CommandText = "SELECT * FROM c_view_slimline_summed_progress WHERE door_id=@doorid and op=@op";
+                    cmd.Parameters.AddWithValue("@doorid", _doorId);
+                    cmd.Parameters.AddWithValue("@op", _sectionName);
+                    SqlDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.HasRows)
+                    {
+
+                        while (rdr.Read())
+                        {
+                            returnValue = Convert.ToDouble(rdr["SumPartPercent"]);
+                        }
+
+                    }
+                    else
+                    {
+                        returnValue = 0;
+                    }
                 }
 
                 sqlconn.Close();
@@ -187,7 +241,7 @@ namespace SlimlineRevisedUI.Classes
         // End of property list
 
 
-        
+
 
 
         public UpdateDepartments(double doorID, string section)
@@ -199,21 +253,22 @@ namespace SlimlineRevisedUI.Classes
 
         public void updateStarted(bool toggleMode)
         {
-          
+
 
             SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString);
             conn.Open();
 
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = conn;
-            
+
 
             switch (_sectionName)
             {
                 case "SL_Stores":
-                    
+
                     break;
-                case "Cutting":;
+                case "Cutting":
+                    ;
                     cmd.CommandText = "UPDATE dbo.door_allocation set started_cut = @now where door_id = @doorID";
                     break;
                 case "Prepping":
@@ -229,19 +284,19 @@ namespace SlimlineRevisedUI.Classes
                     cmd.CommandText = "UPDATE dbo.door_allocation set started_pack = @now where door_id = @doorID";
                     break;
                 default:
-                   
+
                     break;
             }
 
             if (toggleMode == false)
             {
-                
+
                 cmd.Parameters.AddWithValue("@now", DateTime.Now);
                 cmd.Parameters.AddWithValue("@doorID", _doorId);
             }
             else
             {
-                
+
                 cmd.Parameters.AddWithValue("@now", DBNull.Value);
                 cmd.Parameters.AddWithValue("@doorID", _doorId);
             }
@@ -255,13 +310,27 @@ namespace SlimlineRevisedUI.Classes
 
         }
 
-        public void updateDoor(double updateAmount , double updatePercentage)
+        public void updateDoor(double updateAmount, double updatePercentage)
         {
             SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString);
             conn.Open();
 
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = conn;
+
+            double proving_time = 0;
+
+            string sqlProving = "select addition_time_SL_buff * addition_quantity " +
+                                "FROM dbo.door_addition where addition_id = 88 and door_id = " + _doorId;
+            //remove the time for addition 88 here
+            using (SqlCommand cmdProving = new SqlCommand(sqlProving, conn))
+            {
+                var fuga = cmdProving.ExecuteScalar();
+                if (fuga != null)
+                {
+                    proving_time = Convert.ToDouble(fuga);
+                }
+            }
 
 
             switch (_sectionName)
@@ -279,13 +348,14 @@ namespace SlimlineRevisedUI.Classes
                     cmd.CommandText = "UPDATE dbo.door set complete_assembly = @opComp, date_assembly_complete = @dateComp, time_remianing_assembly = time_remianing_assembly - @amountToDeduct WHERE id = @doorID";
                     break;
                 case "SL_Buff":
-                    cmd.CommandText = "UPDATE dbo.door set complete_SL_buff = @opComp, date_SL_buff_complete = @dateComp, time_remaining_sl_buff = time_remaining_sl_buff - @amountToDeduct WHERE id = @doorID";
+                    cmd.CommandText = "UPDATE dbo.door set complete_SL_buff = @opComp, date_SL_buff_complete = @dateComp, " +
+                        "time_remaining_sl_buff = time_remaining_sl_buff - @amountToDeduct WHERE id = @doorID";
                     break;
                 case "SL_Pack":
                     cmd.CommandText = "UPDATE dbo.door set complete_pack =@opComp, date_pack_complete = @dateComp, time_remaining_pack = time_remaining_pack - @amountToDeduct WHERE id = @doorID";
                     break;
                 default:
-                    
+
                     break;
             }
 
@@ -293,7 +363,7 @@ namespace SlimlineRevisedUI.Classes
 
             if (updatePercentage == 100)
             {
-                if(_sectionName == "SL_Buff")
+                if (_sectionName == "SL_Buff")
                 {
                     checkIFSRAddon();
                 }
@@ -318,20 +388,20 @@ namespace SlimlineRevisedUI.Classes
 
 
 
-           
 
 
 
-            
+
+
         }
 
         private void checkIFSRAddon()
         {
             SqlConnection conn2 = new SqlConnection(SqlStatements.ConnectionString);
             conn2.Open();
-            SqlCommand cmd2 = new SqlCommand("usp_notify_sr_addons_complete",conn2);
+            SqlCommand cmd2 = new SqlCommand("usp_notify_sr_addons_complete", conn2);
             cmd2.CommandType = System.Data.CommandType.StoredProcedure;
-            
+
 
             cmd2.Parameters.AddWithValue("@doorID", SqlDbType.Int).Value = _doorId;
 
@@ -344,6 +414,17 @@ namespace SlimlineRevisedUI.Classes
         {
             SqlConnection connClean = new SqlConnection(SqlStatements.ConnectionString);
             connClean.Open();
+            int proving = 0;
+            string sql = "SELECT id FROM dbo.door_part_completion_log WHERE op = 'SL Proving' and door_id = " + _doorId;
+            using (SqlCommand cmd = new SqlCommand(sql, connClean))
+            {
+                var fuga = cmd.ExecuteScalar();
+
+                if (fuga == null)
+                    proving = 0;
+                else
+                    proving = Convert.ToInt32(fuga);
+            }
 
             SqlCommand cmdClean = new SqlCommand();
             cmdClean.Connection = connClean;
@@ -376,7 +457,10 @@ namespace SlimlineRevisedUI.Classes
 
             cmdClean.Parameters.AddWithValue("@doorID", _doorId);
 
-            cmdClean.ExecuteNonQuery();
+            if (proving == 0 && _sectionName == "SL_Buff")
+            { }
+            else
+                cmdClean.ExecuteNonQuery();
 
             connClean.Close();
 
@@ -388,7 +472,7 @@ namespace SlimlineRevisedUI.Classes
         public void calibrate()
         {
             var UpdateDate = DateTime.Now.ToString("yyyy-MM-dd 00:00:00.000");
-            double totalTime =0;
+            double totalTime = 0;
 
 
             SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString);
@@ -428,10 +512,10 @@ namespace SlimlineRevisedUI.Classes
 
 
         }
-        
+
 
 
 
     }
-    }
+}
 

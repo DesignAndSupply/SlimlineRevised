@@ -154,21 +154,48 @@ namespace SlimlineRevisedUI.Forms
                         string action = "";
                         if (dt.Rows.Count == 0)
                         {
-                            MessageBox.Show("Please make sure this job is allocated before attempting to update this job!", "No Allocation", MessageBoxButtons.OK);
-                            return;
-                        }
-                        startDate = dt.Rows[0][0].ToString();
-                        action = dt.Rows[0][1].ToString();
 
-                        if (startDate == "")
-                        {
-                            MessageBox.Show("You cannot update this job until it has been marked as started!", "Update cancelled!", MessageBoxButtons.OK);
-                            return;
+                            if (SqlStatements.proving == -1)
+                            {
+                                //check if this has been proved before
+                                //check if slimline proving has been clicked before
+                                string sqlProving = "SELECT id FROM dbo.door_part_completion_log WHERE op = 'SL Proving' and door_id = " + _doorID;
+                                using (SqlCommand cmdProving = new SqlCommand(sqlProving, conn))
+                                {
+                                    var fuga = cmdProving.ExecuteScalar();
+
+                                    if (fuga != null)
+                                    {
+                                        MessageBox.Show("The proving for this door has already been marked as complete!");
+                                        return;
+                                    }
+
+                                }
+                            }
+                            else
+                            {
+
+                                MessageBox.Show("Please make sure this job is allocated before attempting to update this job!", "No Allocation", MessageBoxButtons.OK);
+                                return;
+                            }
                         }
-                        if (action == "Paused")
+                        if (SqlStatements.proving == -1 && dt.Rows.Count == 0)
+                        { }
+                        else
                         {
-                            MessageBox.Show("You cannot update this job until it has been unpaused!", "Update cancelled!", MessageBoxButtons.OK);
-                            return;
+                            startDate = dt.Rows[0][0].ToString();
+                            action = dt.Rows[0][1].ToString();
+
+                            if (startDate == "")
+                            {
+                                MessageBox.Show("You cannot update this job until it has been marked as started!", "Update cancelled!", MessageBoxButtons.OK);
+                                return;
+                            }
+                            if (action == "Paused")
+                            {
+                                MessageBox.Show("You cannot update this job until it has been unpaused!", "Update cancelled!", MessageBoxButtons.OK);
+                                return;
+                            }
                         }
 
                     }
@@ -232,6 +259,9 @@ namespace SlimlineRevisedUI.Forms
                                 double valueTimeToInsert = percentageToInsert * ud._SectionTime;
                                 double valueToUpdateDoor = percentageToInsert * ud._SectionTimeSingular;
 
+                                if (SqlStatements.proving == -1)
+                                    _dept = "SL Proving";
+
                                 SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString);
                                 conn.Open();
                                 SqlCommand cmd = new SqlCommand();
@@ -259,7 +289,7 @@ namespace SlimlineRevisedUI.Forms
                                     frmLooseItems frmLI = new frmLooseItems(_doorID);
                                     frmLI.ShowDialog();
                                 }
-
+                                SqlStatements.proving = 0;
                                 this.Close();
                             }
                             catch
@@ -360,30 +390,52 @@ namespace SlimlineRevisedUI.Forms
 
             if (_dept == "SL_Buff")
             {
-                string sql = "SELECT addition_id FROM dbo.door_addition where door_id = " + _doorID + " AND addition_id = 88";
-
-                using (SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString))
+                int validation = 0;
+                string sql = "SELECT complete_SL_buff FROM dbo.door WHERE id = " + _doorID;
+                using (SqlConnection sqlconn = new SqlConnection(SqlStatements.ConnectionString))
                 {
-                    conn.Open();
-
-                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    sqlconn.Open();
+                    using (SqlCommand cmd = new SqlCommand(sql, sqlconn))
                     {
-                        var getAddition = cmd.ExecuteScalar();
-                        if (getAddition != null)
-                        {
-                            //prompt the user for proving or not
-                            frmProvingSelection frm = new frmProvingSelection();
-                            frm.ShowDialog();
+                        var fuga = cmd.ExecuteScalar();
 
-                            if (SqlStatements.proving == -1)
+                        if (fuga == null)
+                            validation = 0;
+                        else
+                            validation = Convert.ToInt32(fuga);
+                    }
+                    sqlconn.Close();
+                }
+                if (validation == 1)
+                {
+                    sql = "SELECT addition_id FROM dbo.door_addition where door_id = " + _doorID + " AND addition_id = 88";
+
+                    using (SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString))
+                    {
+                        conn.Open();
+
+                        using (SqlCommand cmd = new SqlCommand(sql, conn))
+                        {
+                            var getAddition = cmd.ExecuteScalar();
+                            if (getAddition != null)
                             {
-                                MessageBox.Show("proving");
+                                //prompt the user for proving or not
+                                frmProvingSelection frm = new frmProvingSelection();
+                                frm.ShowDialog();
+
+                                if (SqlStatements.proving == -1)
+                                {
+                                    txtPercentage.Text = "100";
+                                    txtPercentage.Enabled = false;
+                                }
+
                             }
                         }
+                        conn.Close();
                     }
-
-                    conn.Close();
                 }
+                    
+                
             }
 
         }
