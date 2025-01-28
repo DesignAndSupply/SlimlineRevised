@@ -348,6 +348,7 @@ namespace SlimlineRevisedUI.Classes
                     cmd.CommandText = "UPDATE dbo.door set complete_assembly = @opComp, date_assembly_complete = @dateComp, time_remianing_assembly = time_remianing_assembly - @amountToDeduct WHERE id = @doorID";
                     break;
                 case "SL_Buff":
+
                     cmd.CommandText = "UPDATE dbo.door set complete_SL_buff = @opComp, date_SL_buff_complete = @dateComp, " +
                         "time_remaining_sl_buff = time_remaining_sl_buff - @amountToDeduct WHERE id = @doorID";
                     break;
@@ -363,17 +364,43 @@ namespace SlimlineRevisedUI.Classes
 
             if (updatePercentage == 100)
             {
-                if (_sectionName == "SL_Buff")
+                //check if it has the proving addon -- 88
+
+                string sql = "SELECT addition_id FROM dbo.door_addition where door_id = " + _doorId + " AND addition_id = 88";
+                int hasProving = 0;
+                using (SqlConnection connProving = new SqlConnection(SqlStatements.ConnectionString))
+                {
+                    connProving.Open();
+
+                    using (SqlCommand cmdProving = new SqlCommand(sql, connProving))
+                    {
+                        var getAddition = cmdProving.ExecuteScalar();
+                        if (getAddition != null)
+                            hasProving = -1;
+                    }
+                    connProving.Close();
+                }
+
+                if (_sectionName == "SL_Buff" && hasProving == -1)
                 {
                     checkIFSRAddon();
+
+                    cmd.Parameters.AddWithValue("@amountToDeduct", updateAmount);
+                    cmd.Parameters.AddWithValue("@doorID", _doorId);
+                    cmd.Parameters.AddWithValue("@dateComp", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@opComp", SqlStatements.proving);
+                    cmd.ExecuteNonQuery();
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@amountToDeduct", updateAmount);
+                    cmd.Parameters.AddWithValue("@doorID", _doorId);
+                    cmd.Parameters.AddWithValue("@dateComp", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@opComp", -1);
+                    cmd.ExecuteNonQuery();
                 }
 
 
-                cmd.Parameters.AddWithValue("@amountToDeduct", updateAmount);
-                cmd.Parameters.AddWithValue("@doorID", _doorId);
-                cmd.Parameters.AddWithValue("@dateComp", DateTime.Now);
-                cmd.Parameters.AddWithValue("@opComp", -1);
-                cmd.ExecuteNonQuery();
                 cleanUpTimeRemain();
             }
             else

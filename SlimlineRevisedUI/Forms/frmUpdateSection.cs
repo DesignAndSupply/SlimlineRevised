@@ -390,8 +390,11 @@ namespace SlimlineRevisedUI.Forms
 
             if (_dept == "SL_Buff")
             {
-                int validation = 0;
-                string sql = "SELECT complete_SL_buff FROM dbo.door WHERE id = " + _doorID;
+                double validation = 0;
+                //string sql = "SELECT complete_SL_buff FROM dbo.door WHERE id = " + _doorID;
+                string sql = "select coalesce(sum(part_percent_complete),0)  " +
+                             "FROM dbo.door_part_completion_log " +
+                             "WHERE op = 'SL_Buff' and door_id = " + _doorID;
                 using (SqlConnection sqlconn = new SqlConnection(SqlStatements.ConnectionString))
                 {
                     sqlconn.Open();
@@ -402,7 +405,7 @@ namespace SlimlineRevisedUI.Forms
                         if (fuga == null)
                             validation = 0;
                         else
-                            validation = Convert.ToInt32(fuga);
+                            validation = Convert.ToDouble(fuga);
                     }
                     sqlconn.Close();
                 }
