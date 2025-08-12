@@ -40,7 +40,7 @@ namespace SlimlineRevisedUI.Forms
 
             fillGrid();
             this.dgvAllocation.CellFormatting += dgvAllocation_CellFormatting;
-           
+
         }
 
         private void fillGrid()
@@ -52,6 +52,7 @@ namespace SlimlineRevisedUI.Forms
             }
             catch
             {
+
             }
             try
             {
@@ -59,6 +60,7 @@ namespace SlimlineRevisedUI.Forms
             }
             catch
             {
+
             }
             try
             {
@@ -66,6 +68,7 @@ namespace SlimlineRevisedUI.Forms
             }
             catch
             {
+
             }
             dgvAllocation.DataSource = null;
             SqlConnection con = new SqlConnection(SqlStatements.ConnectionString);
@@ -190,9 +193,9 @@ namespace SlimlineRevisedUI.Forms
                         staff_id = Convert.ToInt32(cmd.ExecuteScalar());
 
                     //add the note
-                    frmNoteEntry frm = new frmNoteEntry(section, door_id,staff_id);
+                    frmNoteEntry frm = new frmNoteEntry(section, door_id, staff_id);
                     frm.ShowDialog();
-                    
+
 
                     if (temp == "Live")
                         sql = "INSERT INTO dbo.door_stoppages (action,action_time,department,door_id,staff_id) VALUES ('Paused',GETDATE(),'" + section + "'," + door_id + "," + staff_id + ")";
@@ -201,7 +204,7 @@ namespace SlimlineRevisedUI.Forms
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                         cmd.ExecuteNonQuery();
                     conn.Close();
-                    
+
                 }
             }
 
@@ -245,7 +248,7 @@ namespace SlimlineRevisedUI.Forms
             if (e.ColumnIndex == pauseButton)
             {
                 string status = dgvAllocation.Rows[e.RowIndex].Cells["action"].Value.ToString();
-                if (string.IsNullOrEmpty(status) || status == "Live" )
+                if (string.IsNullOrEmpty(status) || status == "Live")
                     status = "Pause";
                 else
                     status = "Resume";

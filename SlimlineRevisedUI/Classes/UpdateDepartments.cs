@@ -27,7 +27,7 @@ namespace SlimlineRevisedUI.Classes
 
                 double proving_time = 0;
 
-                string sqlProving = "select addition_time_SL_buff * addition_quantity " +
+                string sqlProving = "select addition_time_SL_buff " +
                                     "FROM dbo.door_addition where addition_id = 88 and door_id = " + _doorId;
                 //remove the time for addition 88 here
                 using (SqlCommand cmdProving = new SqlCommand(sqlProving, sqlconn))

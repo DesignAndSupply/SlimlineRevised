@@ -226,5 +226,17 @@ namespace SlimlineRevisedUI.Forms
             frmRepaint frm = new frmRepaint(Convert.ToInt32(txtDoorIDSearch.Text));
             frm.ShowDialog();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            frmMultipleProvingSelection frmMPS = new frmMultipleProvingSelection();
+            frmMPS.ShowDialog();
+
+
+            foreach(int i in frmMPS.provingSplitList)
+            {
+                MessageBox.Show("Staff ID: " + i.ToString(), "Staff ID", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
     }
 }

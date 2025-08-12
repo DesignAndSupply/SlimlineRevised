@@ -260,25 +260,105 @@ namespace SlimlineRevisedUI.Forms
                                 double valueToUpdateDoor = percentageToInsert * ud._SectionTimeSingular;
 
                                 if (SqlStatements.proving == -1)
+                                {
                                     _dept = "SL Proving";
 
-                                SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString);
-                                conn.Open();
-                                SqlCommand cmd = new SqlCommand();
-                                cmd.Connection = conn;
-                                cmd.CommandText = "INSERT INTO dbo.door_part_completion_log(door_id, part_complete_date,time_for_part,part,part_status,staff_id,op,part_percent_complete)" +
-                                                  "values (@doorID,@completeDate,@timeForPart,@part,'Complete',@staffID,@op,@partPercentComplete)";
-                                cmd.Parameters.AddWithValue("@doorID", _doorID);
-                                cmd.Parameters.AddWithValue("@completeDate", DateTime.Now);
-                                cmd.Parameters.AddWithValue("@timeForPart", valueTimeToInsert);
-                                cmd.Parameters.AddWithValue("@part", "Part " + _dept);
-                                cmd.Parameters.AddWithValue("@staffID", cmbStaffID.SelectedValue);
-                                cmd.Parameters.AddWithValue("@op", _dept);
-                                cmd.Parameters.AddWithValue("@partPercentComplete", percentageToInsert);
+                                    //prompt the user for splitting the proivng
+                                    DialogResult multipleProving = MessageBox.Show("Do you want to split this over two people?", "SL Proving", MessageBoxButtons.YesNo);
 
-                                cmd.ExecuteNonQuery();
-                                conn.Close();
+                                    if (multipleProving == DialogResult.Yes)
+                                    {
 
+                                        frmMultipleProvingSelection frm = new frmMultipleProvingSelection();
+                                        frm.ShowDialog();
+
+                                        if (frm.cancel == -1)
+                                        {
+                                            //run it normally
+                                            SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString);
+                                            conn.Open();
+                                            SqlCommand cmd = new SqlCommand();
+                                            cmd.Connection = conn;
+                                            cmd.CommandText = "INSERT INTO dbo.door_part_completion_log(door_id, part_complete_date,time_for_part,part,part_status,staff_id,op,part_percent_complete)" +
+                                                              "values (@doorID,@completeDate,@timeForPart,@part,'Complete',@staffID,@op,@partPercentComplete)";
+                                            cmd.Parameters.AddWithValue("@doorID", _doorID);
+                                            cmd.Parameters.AddWithValue("@completeDate", DateTime.Now);
+                                            cmd.Parameters.AddWithValue("@timeForPart", valueTimeToInsert);
+                                            cmd.Parameters.AddWithValue("@part", "Part " + _dept);
+                                            cmd.Parameters.AddWithValue("@staffID", cmbStaffID.SelectedValue);
+                                            cmd.Parameters.AddWithValue("@op", _dept);
+                                            cmd.Parameters.AddWithValue("@partPercentComplete", percentageToInsert);
+
+                                            cmd.ExecuteNonQuery();
+                                            conn.Close();
+                                        }
+                                        else
+                                        {
+                                            double individualPercentage = percentageToInsert / frm.provingSplitList.Count;
+                                            double individualValueTimeToInsert = valueTimeToInsert / frm.provingSplitList.Count;
+                                            foreach (int staff in frm.provingSplitList)
+                                            {
+                                                SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString);
+                                                conn.Open();
+                                                SqlCommand cmd = new SqlCommand();
+                                                cmd.Connection = conn;
+                                                cmd.CommandText = "INSERT INTO dbo.door_part_completion_log(door_id, part_complete_date,time_for_part,part,part_status,staff_id,op,part_percent_complete)" +
+                                                                  "values (@doorID,@completeDate,@timeForPart,@part,'Complete',@staffID,@op,@partPercentComplete)";
+                                                cmd.Parameters.AddWithValue("@doorID", _doorID);
+                                                cmd.Parameters.AddWithValue("@completeDate", DateTime.Now);
+                                                cmd.Parameters.AddWithValue("@timeForPart", individualValueTimeToInsert);
+                                                cmd.Parameters.AddWithValue("@part", "Part " + _dept);
+                                                cmd.Parameters.AddWithValue("@staffID", staff   );
+                                                cmd.Parameters.AddWithValue("@op", _dept);
+                                                cmd.Parameters.AddWithValue("@partPercentComplete", individualPercentage);
+
+                                                cmd.ExecuteNonQuery();
+                                                conn.Close();
+                                            }
+                                        }
+
+
+                                    }
+                                    else //run it just for the current guy
+                                    {
+
+                                        SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString);
+                                        conn.Open();
+                                        SqlCommand cmd = new SqlCommand();
+                                        cmd.Connection = conn;
+                                        cmd.CommandText = "INSERT INTO dbo.door_part_completion_log(door_id, part_complete_date,time_for_part,part,part_status,staff_id,op,part_percent_complete)" +
+                                                          "values (@doorID,@completeDate,@timeForPart,@part,'Complete',@staffID,@op,@partPercentComplete)";
+                                        cmd.Parameters.AddWithValue("@doorID", _doorID);
+                                        cmd.Parameters.AddWithValue("@completeDate", DateTime.Now);
+                                        cmd.Parameters.AddWithValue("@timeForPart", valueTimeToInsert);
+                                        cmd.Parameters.AddWithValue("@part", "Part " + _dept);
+                                        cmd.Parameters.AddWithValue("@staffID", cmbStaffID.SelectedValue);
+                                        cmd.Parameters.AddWithValue("@op", _dept);
+                                        cmd.Parameters.AddWithValue("@partPercentComplete", percentageToInsert);
+
+                                        cmd.ExecuteNonQuery();
+                                        conn.Close();
+                                    }
+                                }
+                                else
+                                {
+                                    SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString);
+                                    conn.Open();
+                                    SqlCommand cmd = new SqlCommand();
+                                    cmd.Connection = conn;
+                                    cmd.CommandText = "INSERT INTO dbo.door_part_completion_log(door_id, part_complete_date,time_for_part,part,part_status,staff_id,op,part_percent_complete)" +
+                                                      "values (@doorID,@completeDate,@timeForPart,@part,'Complete',@staffID,@op,@partPercentComplete)";
+                                    cmd.Parameters.AddWithValue("@doorID", _doorID);
+                                    cmd.Parameters.AddWithValue("@completeDate", DateTime.Now);
+                                    cmd.Parameters.AddWithValue("@timeForPart", valueTimeToInsert);
+                                    cmd.Parameters.AddWithValue("@part", "Part " + _dept);
+                                    cmd.Parameters.AddWithValue("@staffID", cmbStaffID.SelectedValue);
+                                    cmd.Parameters.AddWithValue("@op", _dept);
+                                    cmd.Parameters.AddWithValue("@partPercentComplete", percentageToInsert);
+
+                                    cmd.ExecuteNonQuery();
+                                    conn.Close();
+                                }
 
                                 ud.updateDoor(valueToUpdateDoor, n);
                                 ud.calibrate();
@@ -437,8 +517,8 @@ namespace SlimlineRevisedUI.Forms
                         conn.Close();
                     }
                 }
-                    
-                
+
+
             }
 
         }
