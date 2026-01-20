@@ -85,7 +85,7 @@ namespace SlimlineRevisedUI.Forms
                     dgvSections.Columns.Insert(columnIndex, packingButton);
                 }
 
-        
+
 
             }
             catch (Exception)
@@ -117,6 +117,25 @@ namespace SlimlineRevisedUI.Forms
 
             if (e.ColumnIndex == dgvSections.Columns["Update Department"].Index)
             {
+
+                //run the daily_goals procedure 
+                try
+                {
+                    using (SqlConnection conn = new SqlConnection(SqlStatements.ConnectionString))
+                    {
+                        using (SqlCommand cmd = new SqlCommand("usp_daily_goals", conn))
+                        {
+
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@date", SqlDbType.Date).Value = DateTime.Now.ToString("yyyyMMdd");
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+                catch {
+                //shouldnt error but just incase!!!!
+                }
+
                 frmUpdateSection frmUS = new frmUpdateSection(doorID, operation);
                 frmUS.ShowDialog();
                 fillGrid();
@@ -142,7 +161,7 @@ namespace SlimlineRevisedUI.Forms
                         Verb = "print",
                         FileName = temp //put the correct path here
                     };
-                  
+
 
                     try
                     {
@@ -176,7 +195,7 @@ namespace SlimlineRevisedUI.Forms
             }
 
 
-                
+
 
         }
 
@@ -233,7 +252,7 @@ namespace SlimlineRevisedUI.Forms
             frmMPS.ShowDialog();
 
 
-            foreach(int i in frmMPS.provingSplitList)
+            foreach (int i in frmMPS.provingSplitList)
             {
                 MessageBox.Show("Staff ID: " + i.ToString(), "Staff ID", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
