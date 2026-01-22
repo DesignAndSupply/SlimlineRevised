@@ -117,6 +117,9 @@ namespace SlimlineRevisedUI.Forms
 
             if (e.ColumnIndex == dgvSections.Columns["Update Department"].Index)
             {
+                frmUpdateSection frmUS = new frmUpdateSection(doorID, operation);
+                frmUS.ShowDialog();
+                fillGrid();
 
                 //run the daily_goals procedure 
                 try
@@ -132,13 +135,11 @@ namespace SlimlineRevisedUI.Forms
                         }
                     }
                 }
-                catch {
-                //shouldnt error but just incase!!!!
+                catch
+                {
+                    //shouldnt error but just incase!!!!
                 }
 
-                frmUpdateSection frmUS = new frmUpdateSection(doorID, operation);
-                frmUS.ShowDialog();
-                fillGrid();
             }
 
             if (e.ColumnIndex == dgvSections.Columns["Packing List"].Index)

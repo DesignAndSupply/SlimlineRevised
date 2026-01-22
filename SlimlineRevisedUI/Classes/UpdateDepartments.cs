@@ -515,15 +515,15 @@ namespace SlimlineRevisedUI.Classes
             //USE TOTAL TIME TO UPDATE DAILY GOALS
 
 
-            SqlCommand sqlwrt = new SqlCommand();
-            sqlwrt.Connection = conn;
-            sqlwrt.CommandText = "UPDATE dbo.daily_department_goal SET actual_hours_slimline =@actualHours WHERE date_goal=@dateGoal;";
-            sqlwrt.Parameters.AddWithValue("@actualHours", totalTime);
-            sqlwrt.Parameters.AddWithValue("@dateGoal", UpdateDate);
+            //SqlCommand sqlwrt = new SqlCommand();
+            //sqlwrt.Connection = conn;
+            //sqlwrt.CommandText = "UPDATE dbo.daily_department_goal SET actual_hours_slimline =@actualHours WHERE date_goal=@dateGoal;";
+            //sqlwrt.Parameters.AddWithValue("@actualHours", totalTime);
+            //sqlwrt.Parameters.AddWithValue("@dateGoal", UpdateDate);
 
-            sqlwrt.ExecuteNonQuery();
+            //sqlwrt.ExecuteNonQuery();
 
-            conn.Close();
+            //conn.Close();
 
 
         }
